@@ -2,6 +2,7 @@
   font-size: 100%;
   font-family: 'Roboto Condensed', sans-serif;
   text-align: center;
+  
  }
 body {
   background-color: #252525;
@@ -14,6 +15,14 @@ h1 {
     margin-left: 0px;
     font-size: 600%;
 }
+
+
+.center {
+margin-left: auto;
+margin-right: auto;
+}
+
+
 
 
 .header img {

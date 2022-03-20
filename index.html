@@ -23,15 +23,29 @@
     <p>Enter the molecular formula of the molecule</p>
 
     <form id="form">
-        <input type="text" id="input" >
+        <input type="text" id="input" placeholder="formula">
         <button type="submit">Calculate</button> 
-    </form>
+    </form>gi
     
     <div id="parent">
         <p class="child">Molecular mass = </p> 
         <p class = "child" id="output"></p> 
         <p class = "child">g/mol</p>
     </div>
+
+    <br>
+
+    <table class="center">
+      <thead>
+        <tr>
+          <th>Element</th>
+          <th>Subscript</th>    
+          <th>Mass</th>
+          <th>Total Mass</th>
+        </tr>
+      </thead>
+      <tbody id="table"></tbody>
+      </table>
     
 </body>
 </html>
