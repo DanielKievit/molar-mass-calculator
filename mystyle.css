@@ -1,0 +1,38 @@
+* {
+  font-size: 100%;
+  font-family: 'Roboto Condensed', sans-serif;
+  text-align: center;
+ }
+body {
+  background-color: #252525;
+  color: white;
+
+  }
+
+h1 {
+    color: rgb(212, 113, 0);
+    margin-left: 0px;
+    font-size: 600%;
+}
+
+
+.header img {
+  float: left;
+  width: 100px;
+  height: 100px;
+  background: #555;
+}
+
+.header h1 {
+  position: relative;
+  top: 18px;
+  left: 10px;
+}
+
+#parent { white-space: nowrap; }
+.child { display: inline-block; }
+
+
+a {
+  color: rgb(212, 47, 36);
+}
