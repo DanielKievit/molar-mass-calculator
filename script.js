@@ -116,8 +116,6 @@ const molecular_weights = {
 function calculatemolarmassof(inputformula) {
     components = inputformula.match(/[A-Z][a-z]?|[0-9]+|[()]/g);
 
-    console.log(components);
-
     function isNumeric(num) {
         return !isNaN(num);
     }
@@ -156,14 +154,15 @@ function calculatemolarmassof(inputformula) {
 
             SubstringCount = range(IndexOfFirstParanthesis, IndexOfSecondParanthesis);
 
-            Substring = [];
+            let Substring = [];
 
             for (y in SubstringCount) {
                 Substring.push(components[SubstringCount[y]]);
 
             }
+           
+            // HIER IF STATEMENTS
             SubstringFactor = components[IndexOfSecondParanthesis + 1];
-
 
             p = 0;
             Substring_weight_list = [];
@@ -190,13 +189,11 @@ function calculatemolarmassof(inputformula) {
                 }
             }
 
-
             let total_substring_weight = 0;
 
             for (let u = 0; u < Substring_weight_list.length; u++) {
                 total_substring_weight += Substring_weight_list[u];
             }
-
 
             ParanthesisWeight = SubstringFactor * total_substring_weight;
 
@@ -221,15 +218,84 @@ function calculatemolarmassof(inputformula) {
     }
 
     total_weight = 0
-    for (let o = 0; o < weight_list.length; o++) {
-        total_weight += weight_list[o];
+    for (let x = 0; x < weight_list.length; x++) {
+        total_weight += weight_list[x];
     }
     total_weight += ParanthesisWeight;
 
     total_weight = Number((total_weight).toFixed(3));
 
-    return total_weight;
+    // code to create the explanation table
+
+    // ONLY WORKS WITHOUT ()
+
+    if (!components.includes("(")) { // create table lists in the case that components don't include ()
+        element_list = inputformula.match(/[A-Z][a-z]?/g); // split the string into only elements i.e. Fe(OH)2 --> [Fe, O, H] 
+        digit_list = [];
+        molecular_weight_list = [];
+        total_weight_list = [];
+    
+        for (x in element_list){
+            index_of_elements = components.indexOf(element_list[x]); // look up the index number of the element_list in the components list i.e. O of the element_list would have index 2 in components list
+            if(isNumeric(components[index_of_elements+1])){ // check if the next index after an element is numeric
+               digit_list.push(parseInt(components[index_of_elements+1])); // if the next index after an element is numeric, append the number to the digit_list
+               total_weight_list.push((components[index_of_elements+1]) * molecular_weights[element_list[x]]);
+            }else{
+                digit_list.push(1); // if the next index after an element in not numeric, the coefficient is 1
+                total_weight_list.push(molecular_weights[element_list[x]]);
+            }
+            molecular_weight_list.push(molecular_weights[element_list[x]]);
+        }
+    }else{ // create table lists in the case that components includes ()
+        element_list = inputformula.match(/[A-Z][a-z]?/g);
+        // console.log(element_list);
+
+        
+        for (x in element_list){
+            // console.log(components.indexOf(element_list[x])); // returns the indexes of all elements 
+            
+
+        }
+
+        
+        // check if previous index of element_list contains (
+        // then add that to paranthesis list
+        // 
+
+
+        // element_list CHECK
+        // digit_list --> should be adapted
+        // molecular_weight_list --> still the same
+        // total weight list  --> 
+        
+        
+    }
+
+    console.log(Substring);
+
+    
+
+    
+
+    
+
+    const output = [];
+
+    for(let i = 0; i < digit_list.length; i++) {
+        output.push({
+            "count": digit_list[i],
+            "element": element_list[i],
+            "weight": molecular_weight_list[i],
+            "total": total_weight_list[i]
+        });
+    }
+
+    return {
+        "table": output,
+        "total": total_weight
+    };
 }
+
 
 // roep aan als document is geladen
 document.addEventListener("DOMContentLoaded", function () {
@@ -237,22 +303,33 @@ document.addEventListener("DOMContentLoaded", function () {
     const form = document.getElementById("form");
     const input = document.getElementById("input");
     const output = document.getElementById("output"); // https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector?retiredLocale=nl
+    const table = document.getElementById("table");
 
     // luister wanneer data wordt verzonden
     form.addEventListener("submit", function (e) {
+        table.innerHTML = ""; // leeg tabel
+
         e.preventDefault(); // voorkom het verzenden van de form
-        const mass = calculatemolarmassof(input.value); // zet variabele 'mass' naar de berekende massa
-        
-        if (isNaN(mass)) {
+        const values = calculatemolarmassof(input.value); // zet variabele 'mass' naar de berekende massa
+
+        if (isNaN(values.total)) {
             output.innerHTML = "error";
+            return; // what does this do
         } else {
-            output.innerHTML = mass; // zet de HTML waarde van het 'mass' element naar de berekende massa
+            output.innerHTML = values.total; // zet de HTML waarde van het 'mass' element naar de berekende massa
         }
 
+        for(const el of values.table) {
+            table.innerHTML += `
+            <tr>
+                <td>${el.element}</td>
+                <td>${el.count}</td>
+                <td>${el.weight}</td>
+                <td>${el.total}</td>
+            </tr>
+            `;
+        }
+        
     });
+
 });
-
-
-
-
-
