@@ -24,7 +24,7 @@
 
   <form id="form">
       <input type="text" id="input" placeholder="formula">
-      <button type="submit">Calculate</button> 
+      <button type="submit">calculate</button> 
   </form>
     
   <div id="parent">
@@ -47,17 +47,28 @@
     <tbody id="table"></tbody>
     </table>
 
+  
+  <br>
+
+
   <br>
 
   <form>
-    <label for="input">Select a unit</label>
-    <input type="text" id="input" placeholder="formula">
+    <input type="text" id="input" placeholder="amount">
     <select name="input-conversion" id="input-conversion">
-      <option value="grams">grams</option>
-      <option value="mole">mole</option>
+      <option value="grams">grams</option> 
+      <option value="mole">moles</option>
     </select>
+    <input type="text" id="input-molecularmass" placeholder="molecular mass">
+  -->
+    <output>____</output>
+    <select name="input-conversion" id="input-conversion">
+      <option value="grams">grams</option> 
+      <option value="mole">moles</option>
+    </select>
+
     <br><br>
-    <input type="calculate" value="calculate">
+    <input type="submit" value="calculate">
   </form>
     
 </body>

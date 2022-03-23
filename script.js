@@ -235,7 +235,6 @@ function calculatemolarmassof(inputformula) {
      
         element_list = element_list.filter(function(item, pos) {
             return element_list.indexOf(item) == pos;
-            
         });
 
         console.log(element_list);
