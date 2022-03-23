@@ -231,7 +231,17 @@ function calculatemolarmassof(inputformula) {
 
     if (!components.includes("(")) { // create table lists in the case that components don't include ()
         element_list = inputformula.match(/[A-Z][a-z]?/g); // split the string into only elements i.e. Fe(OH)2 --> [Fe, O, H] 
-        digit_list = [];
+        console.log(element_list);
+        // plan: hier dezelfde elementen verwijderen --> onthoud de totale index aantal elements 
+     
+        element_list = element_list.filter(function(item, pos) {
+            return element_list.indexOf(item) == pos;
+            
+        });
+
+        console.log(element_list);
+        
+        var digit_list = [];
         molecular_weight_list = [];
         total_weight_list = [];
     
@@ -271,17 +281,25 @@ function calculatemolarmassof(inputformula) {
         
     }
 
-    console.log(Substring);
+    /* 
+        Bij eerste encounter met element in element_list 
+        dit alles vóór het printen van het element
+        1. kijken of het element al in de list zit ergens anders
+        2. als niet: printen
+        3. als wel: 
+            1. delete that element from digit_list --> prevents it from being printed
+            2. add the 'index' of that element to 
+            
 
-    
 
-    
+    */ 
 
-    
+    console.log(element_list);
+    console.log(digit_list);
 
     const output = [];
 
-    for(let i = 0; i < digit_list.length; i++) {
+    for(let i = 0; i < digit_list.length; i++) { // change this part --> GOAL: join all elements that are the same in 
         output.push({
             "count": digit_list[i],
             "element": element_list[i],
