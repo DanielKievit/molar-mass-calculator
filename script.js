@@ -225,7 +225,7 @@ function calculatemolarmassof(inputformula) {
     }
     total_weight += ParanthesisWeight;
 
-    total_weight = Number((total_weight).toFixed(3));
+    total_weight = Number((total_weight).toFixed(2));
 
     return total_weight;
 }
