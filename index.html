@@ -18,34 +18,63 @@
 </head> 
 
 <body>
-    <br>
+  <br>
 
-    <p>Enter the molecular formula of the molecule</p>
+  <p>Enter the molecular formula of the molecule</p>
 
-    <form id="form">
-        <input type="text" id="input" placeholder="formula">
-        <button type="submit">Calculate</button> 
-    </form>
+  <form id="form">
+      <input type="text" id="input" placeholder="formula">
+      <button type="submit">Calculate</button> 
+  </form>
     
-    <div id="parent">
-        <p class="child">Molecular mass = </p> 
-        <p class = "child" id="output"></p> 
-        <p class = "child">g/mol</p>
-    </div>
+  <div id="parent">
+      <p class="child">Molecular mass = </p> 
+      <p class = "child" id="output"></p> 
+      <p class = "child">g/mol</p>
+  </div>
 
-    <br>
+  <br>
 
-    <table class="center">
-      <thead>
-        <tr>
-          <th>Element</th>
-          <th>Subscript</th>    
-          <th>Mass</th>
-          <th>Total Mass</th>
-        </tr>
-      </thead>
-      <tbody id="table"></tbody>
-      </table>
+  <table class="center">
+    <thead>
+      <tr>
+        <th>Element</th>
+        <th>Subscript</th>    
+        <th>Mass</th>
+        <th>Total Mass</th>
+      </tr>
+    </thead>
+    <tbody id="table"></tbody>
+    </table>
+
+  <br>
+
+  <form>
+    <label for="input">Select a unit</label>
+    <input type="text" id="input" placeholder="formula">
+    <select name="input-conversion" id="input-conversion">
+      <option value="grams">grams</option>
+      <option value="mole">mole</option>
+    </select>
+    <br><br>
+    <input type="calculate" value="calculate">
+  </form>
     
 </body>
 </html>
+
+<!--
+  GOAL OF CALCULATOR FUNCTION
+  several conversions
+  g > mol
+  mol > g
+
+
+
+
+
+-->
+
+
+
+
