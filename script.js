@@ -164,7 +164,6 @@ function calculatemolarmassof(inputformula) {
             }
             SubstringFactor = components[IndexOfSecondParanthesis + 1];
 
-
             p = 0;
             Substring_weight_list = [];
 
