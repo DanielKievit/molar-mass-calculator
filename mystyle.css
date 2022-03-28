@@ -2,6 +2,7 @@
   font-size: 100%;
   font-family: 'Roboto Condensed', sans-serif;
   text-align: center;
+  
  }
 body {
   background-color: #252525;
@@ -15,6 +16,10 @@ h1 {
     font-size: 600%;
 }
 
+.center {
+margin-left: auto;
+margin-right: auto;
+}
 
 .header img {
   float: left;
@@ -29,7 +34,7 @@ h1 {
   left: 10px;
 }
 
-#parent { white-space: nowrap; }
+.parent { white-space: nowrap; }
 .child { display: inline-block; }
 
 

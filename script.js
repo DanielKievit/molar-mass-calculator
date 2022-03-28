@@ -1,3 +1,4 @@
+// constants
 const molecular_weights = {
     "H": 1.00797,
     "He": 4.0026,
@@ -113,10 +114,11 @@ const molecular_weights = {
     'Uub': 277
 };
 
+// definition of avogadro's number
+avogadro = 6.0221409e+23; 
+
 function calculatemolarmassof(inputformula) {
     components = inputformula.match(/[A-Z][a-z]?|[0-9]+|[()]/g);
-
-    console.log(components);
 
     function isNumeric(num) {
         return !isNaN(num);
@@ -156,12 +158,14 @@ function calculatemolarmassof(inputformula) {
 
             SubstringCount = range(IndexOfFirstParanthesis, IndexOfSecondParanthesis);
 
-            Substring = [];
+            let Substring = [];
 
             for (y in SubstringCount) {
                 Substring.push(components[SubstringCount[y]]);
 
             }
+           
+            // HIER IF STATEMENTS
             SubstringFactor = components[IndexOfSecondParanthesis + 1];
 
             p = 0;
@@ -189,13 +193,11 @@ function calculatemolarmassof(inputformula) {
                 }
             }
 
-
             let total_substring_weight = 0;
 
             for (let u = 0; u < Substring_weight_list.length; u++) {
                 total_substring_weight += Substring_weight_list[u];
             }
-
 
             ParanthesisWeight = SubstringFactor * total_substring_weight;
 
@@ -220,38 +222,230 @@ function calculatemolarmassof(inputformula) {
     }
 
     total_weight = 0
-    for (let o = 0; o < weight_list.length; o++) {
-        total_weight += weight_list[o];
+    for (let x = 0; x < weight_list.length; x++) {
+        total_weight += weight_list[x];
     }
     total_weight += ParanthesisWeight;
 
     total_weight = Number((total_weight).toFixed(2));
 
-    return total_weight;
+    // code to create the explanation table
+    // ONLY WORKS WITHOUT ()
+
+    if (!components.includes("(")) { // create table lists in the case that components don't include ()
+        element_list = inputformula.match(/[A-Z][a-z]?/g); // split the string into only elements i.e. Fe(OH)2 --> [Fe, O, H] 
+        console.log(element_list);
+        // plan: hier dezelfde elementen verwijderen --> onthoud de totale index aantal elements 
+     
+        element_list = element_list.filter(function(item, pos) {
+            return element_list.indexOf(item) == pos;
+        });
+
+        console.log(element_list);
+        
+        var digit_list = [];
+        molecular_weight_list = [];
+        total_weight_list = [];
+    
+        for (x in element_list){
+            index_of_elements = components.indexOf(element_list[x]); // look up the index number of the element_list in the components list i.e. O of the element_list would have index 2 in components list
+            if(isNumeric(components[index_of_elements+1])){ // check if the next index after an element is numeric
+               digit_list.push(parseInt(components[index_of_elements+1])); // if the next index after an element is numeric, append the number to the digit_list
+               total_weight_list.push((components[index_of_elements+1]) * molecular_weights[element_list[x]]);
+            }else{
+                digit_list.push(1); // if the next index after an element in not numeric, the coefficient is 1
+                total_weight_list.push(molecular_weights[element_list[x]]);
+            }
+            molecular_weight_list.push(molecular_weights[element_list[x]]);
+        }
+    }else{ // create table lists in the case that components includes ()
+        element_list = inputformula.match(/[A-Z][a-z]?/g);
+        // console.log(element_list);
+
+        for (x in element_list){
+            // console.log(components.indexOf(element_list[x])); // returns the indexes of all elements 
+        }
+
+
+          // check if previous index of element_list contains (
+        // then add that to paranthesis list
+
+        // element_list CHECK
+        // digit_list --> should be adapted
+        // molecular_weight_list --> still the same
+        // total weight list  --> 
+    
+        /* 
+            Bij eerste encounter met element in element_list 
+            dit alles vóór het printen van het element
+            1. kijken of het element al in de list zit ergens anders
+            2. als niet: printen
+            3. als wel: 
+                1. delete that element from digit_list --> prevents it from being printed
+                2. add the 'index' of that element to 
+                
+        */ 
+
+
+
+    }
+
+    
+    console.log(element_list);
+    console.log(digit_list);
+
+    const output = [];
+
+    for(let i = 0; i < digit_list.length; i++) { // change this part --> GOAL: join all elements that are the same in 
+        output.push({
+            "count": digit_list[i],
+            "element": element_list[i],
+            "weight": molecular_weight_list[i],
+            "total": total_weight_list[i]
+        });
+    }
+
+    return {
+        "table": output,
+        "total": total_weight
+    };
 }
+
 
 // roep aan als document is geladen
 document.addEventListener("DOMContentLoaded", function () {
     // pak elementen
     const form = document.getElementById("form");
-    const input = document.getElementById("input");
-    const output = document.getElementById("output"); // https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector?retiredLocale=nl
+    const inputFormula = document.getElementById("input-formula");
+    const output = document.getElementById("output"); 
+    const table = document.getElementById("table");
+
+    const convertForm = document.getElementById("convert-form");
+    const inputAmount = document.getElementById("input-amount");
+    const inputMolarMass = document.getElementById("input-molarmass");
+    
+    const outputAmount = document.getElementById("output-amount");
+    const convertOutput = document.getElementById("convert-output");
+    
+    const inputConversion = document.getElementById("input-conversion");
+    const outputConversion = document.getElementById("output-conversion");
+
+    var inputConversionUnit = document.getElementById("input-conversion-unit");
+    var outputConversionUnit = document.getElementById("output-conversion-unit");
+
+    inputConversionUnit.innerHTML = String(inputConversion.value);
+    outputConversionUnit.innerHTML = String(outputConversion.value); 
+
+    const answerOutputUnit = document.getElementById("answer-output-unit");
+
 
     // luister wanneer data wordt verzonden
     form.addEventListener("submit", function (e) {
-        e.preventDefault(); // voorkom het verzenden van de form
-        const mass = calculatemolarmassof(input.value); // zet variabele 'mass' naar de berekende massa
-        
-        if (isNaN(mass)) {
+        table.innerHTML = ""; // leeg tabel
+
+
+        e.preventDefault(); // prevent sending the default blank input
+        const values = calculatemolarmassof(inputFormula.value); // zet variabele 'mass' naar de berekende massa
+
+        if (isNaN(values.total)) {
             output.innerHTML = "error";
+            return; // what does this do
         } else {
-            output.innerHTML = mass; // zet de HTML waarde van het 'mass' element naar de berekende massa
+            output.innerHTML = values.total; // zet de HTML waarde van het 'mass' element naar de berekende massa
         }
 
+        for(const el of values.table) {
+            table.innerHTML += `
+            <tr>
+                <td>${el.element}</td>
+                <td>${el.count}</td>
+                <td>${el.weight}</td>
+                <td>${el.total}</td>
+            </tr>
+            `;
+        }
     });
+
+    convertForm.addEventListener("submit", function(e) {
+        e.preventDefault();
+
+        if((inputConversion.value == "grams") && (outputConversion.value == "moles")){ // when converting grams to moles
+            convertOutput.innerHTML = (parseInt(inputAmount.value) / parseInt(inputMolarMass.value));
+        }
+        
+        if((inputConversion.value == "moles") && (outputConversion.value == "grams")){ // when converting grams to moles
+            convertOutput.innerHTML = (parseInt(inputAmount.value) * parseInt(inputMolarMass.value));
+        }
+
+        
+        if((inputConversion.value == "particles") && (outputConversion.value == "moles")){ // when converting grams to moles
+            convertOutput.innerHTML = parseInt(inputAmount.value) / avogadro;
+        }
+
+        if((inputConversion.value == "moles") && (outputConversion.value == "particles")){ // when converting grams to moles
+            convertOutput.innerHTML = parseInt(inputAmount.value) * avogadro;
+        }
+
+        
+    });
+
+
+    // when either the inputConversion or the outputConversion dropdown menu selection changes --> run ChangeConvertText
+    inputConversion.addEventListener("change", ChangeConvertText);
+    outputConversion.addEventListener("change", ChangeConvertText); 
+
+    function ChangeConvertText() {  // changes the convert ... to ... text elements on change AND removes molarmass elements 
+        // changes the paragraphs
+        inputConversionUnit.innerHTML = inputConversion.value; // changes the <p> with inputconversion unit in it
+        outputConversionUnit.innerHTML = outputConversion.value; // changes the <p> with outputconversion unit in it
+        answerOutputUnit.innerHTML = outputConversion.value; // changes the <p> with the output answer unit in it
+
+
+
+
+        // hides html elements
+        if((inputConversion.value == "particles") && (outputConversion.value == "moles")){ // when converting grams to moles
+            inputMolarMass.style.visibility = "hidden"; 
+        }
+        if((inputConversion.value == "moles") && (outputConversion.value == "particles")){ // when converting grams to moles
+            inputMolarMass.style.visibility = "hidden";
+        }
+
+        // shows html elements  
+        if((inputConversion.value == "grams") && (outputConversion.value == "moles")){ // when converting grams to moles
+            inputMolarMass.style.visibility = "visible";
+        }
+        
+        if((inputConversion.value == "moles") && (outputConversion.value == "grams")){ // when converting grams to moles
+            inputMolarMass.style.visibility = "visible";
+        }
+
+
+
+
+
+    }
+    // ?? sometimes the answer output unit uses the inputconversion value 
+    // ?? this only happens when first loading the page and then selecting 'moles' in the input menu
+    // ?? this also change the convert .. to .. <p> tag
+
+    inputConversion.addEventListener("change", changeSelection); // on changing inputConversion form --> run setSelection
+
+    function changeSelection() { // changes the dropdown menu so you can't convert moles to moles
+   
+        deletedValue = inputConversion.value;
+        outputConversion.remove(deletedValue); // deletes outputConversion value when it is selected in inputConversion dropdown menu
+
+        if(inputConversion.value != deletedValue.value){ // adds element that has been deleted previous due to selection
+            var option = document.createElement("option"); 
+            option.text = deletedValue;
+            outputConversion.add(option);
+        }
+
+    //     // ?? make it work both ways (maybe use different id's for every dropdown menu)
+    //     // ?? prevent double re-adding of element that was deleted in dropdown menu
+    //     // ?? only re-add deleted element when the once more changed element is not the same
+    }
+
+
 });
-
-
-
-
-

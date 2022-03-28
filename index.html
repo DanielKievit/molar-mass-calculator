@@ -18,20 +18,81 @@
 </head> 
 
 <body>
-    <br>
+  <br>
+  <br>
 
-    <p>Enter the molecular formula of the molecule</p>
-
-    <form id="form">
-        <input type="text" id="input" >
-        <button type="submit">Calculate</button> 
-    </form>
+  <h2><b>Molar mass calculator</b></h2> 
+  <p>Enter a formula to calculate the molar mass in u or g/mol:</p>
+  <form id="form">
+      <input type="text" id="input-formula" placeholder="formula" required>
+      <button type="submit" id="submit-input-formula">calculate</button> 
+  </form>
     
-    <div id="parent">
-        <p class="child">Molecular mass = </p> 
-        <p class = "child" id="output"></p> 
-        <p class = "child">g/mol</p>
-    </div>
+  <div class="parent">
+      <p class="child">Molecular mass = </p> 
+      <p class = "child" id="output"></p> 
+      <p class = "child">g/mol</p>
+  </div>
+
+  <br>
+
+  <table class="center">
+    <thead>
+      <tr>
+        <th>Element</th>
+        <th>Subscript</th>    
+        <th>Mass</th>
+        <th>Total Mass</th>
+      </tr>
+    </thead>
+    <tbody id="table"></tbody>
+    </table>
+
+  
+  <br>
+
+
+  
+  <h2><b>Converter</b></h2> 
+
+  <div class="parent">
+    <p class="child">Converting </p> 
+    <b><p class = "child" id="input-conversion-unit"></p></b>
+    <p class = "child"> to </p>
+    <b><p class = "child" id="output-conversion-unit"></p></b>
+  </div>
+
+  <form id="convert-form">
+    <input type="number" id="input-amount" placeholder="amount" required>
+    
+    <select name="input-conversion" id="input-conversion">
+      <option value="grams">grams</option> 
+      <option value="moles">moles</option>
+      <option value="litres">litres</option>
+      <option value="particles">particles</option>
+    </select>
+    <input type="number" id="input-molarmass" placeholder="molar mass" required>
+    <output id="output-amount"></output>
+    <select name="output-conversion" id="output-conversion">
+      <option value="moles">moles</option>
+      <option value="grams">grams</option> 
+      <option value="litres">litres</option>
+      <option value="particles">particles</option>
+    </select>
+
+    <br><br>
+    <input type="submit" value="calculate">
+  </form>
+
+  <div class="parent">
+    <p class="child">Answer: </p> 
+    <p class="child" id="convert-output"></p> 
+    <p class="child" id="answer-output-unit"></p>
+  </div>
     
 </body>
 </html>
+
+
+
+
