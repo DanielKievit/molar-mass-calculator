@@ -265,6 +265,29 @@ function calculatemolarmassof(inputformula) {
         for (x in element_list){
             // console.log(components.indexOf(element_list[x])); // returns the indexes of all elements 
         }
+
+
+          // check if previous index of element_list contains (
+        // then add that to paranthesis list
+
+        // element_list CHECK
+        // digit_list --> should be adapted
+        // molecular_weight_list --> still the same
+        // total weight list  --> 
+    
+        /* 
+            Bij eerste encounter met element in element_list 
+            dit alles vóór het printen van het element
+            1. kijken of het element al in de list zit ergens anders
+            2. als niet: printen
+            3. als wel: 
+                1. delete that element from digit_list --> prevents it from being printed
+                2. add the 'index' of that element to 
+                
+        */ 
+
+
+
     }
 
     
