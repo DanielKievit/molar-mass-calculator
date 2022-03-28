@@ -1,3 +1,4 @@
+// constants
 const molecular_weights = {
     "H": 1.00797,
     "He": 4.0026,
@@ -112,6 +113,9 @@ const molecular_weights = {
     'Uuu': 272,
     'Uub': 277
 };
+
+// definition of avogadro's number
+avogadro = 6.0221409e+23; 
 
 function calculatemolarmassof(inputformula) {
     components = inputformula.match(/[A-Z][a-z]?|[0-9]+|[()]/g);
@@ -289,16 +293,36 @@ function calculatemolarmassof(inputformula) {
 document.addEventListener("DOMContentLoaded", function () {
     // pak elementen
     const form = document.getElementById("form");
-    const input = document.getElementById("input");
-    const output = document.getElementById("output"); // https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector?retiredLocale=nl
+    const inputFormula = document.getElementById("input-formula");
+    const output = document.getElementById("output"); 
     const table = document.getElementById("table");
+
+    const convertForm = document.getElementById("convert-form");
+    const inputAmount = document.getElementById("input-amount");
+    const inputMolarMass = document.getElementById("input-molarmass");
+    
+    const outputAmount = document.getElementById("output-amount");
+    const convertOutput = document.getElementById("convert-output");
+    
+    const inputConversion = document.getElementById("input-conversion");
+    const outputConversion = document.getElementById("output-conversion");
+
+    var inputConversionUnit = document.getElementById("input-conversion-unit");
+    var outputConversionUnit = document.getElementById("output-conversion-unit");
+
+    inputConversionUnit.innerHTML = String(inputConversion.value);
+    outputConversionUnit.innerHTML = String(outputConversion.value); 
+
+    const answerOutputUnit = document.getElementById("answer-output-unit");
+
 
     // luister wanneer data wordt verzonden
     form.addEventListener("submit", function (e) {
         table.innerHTML = ""; // leeg tabel
 
-        e.preventDefault(); // voorkom het verzenden van de form
-        const values = calculatemolarmassof(input.value); // zet variabele 'mass' naar de berekende massa
+
+        e.preventDefault(); // prevent sending the default blank input
+        const values = calculatemolarmassof(inputFormula.value); // zet variabele 'mass' naar de berekende massa
 
         if (isNaN(values.total)) {
             output.innerHTML = "error";
@@ -317,7 +341,88 @@ document.addEventListener("DOMContentLoaded", function () {
             </tr>
             `;
         }
+    });
+
+    convertForm.addEventListener("submit", function(e) {
+        e.preventDefault();
+
+        if((inputConversion.value == "grams") && (outputConversion.value == "moles")){ // when converting grams to moles
+            convertOutput.innerHTML = (parseInt(inputAmount.value) / parseInt(inputMolarMass.value));
+        }
+        
+        if((inputConversion.value == "moles") && (outputConversion.value == "grams")){ // when converting grams to moles
+            convertOutput.innerHTML = (parseInt(inputAmount.value) * parseInt(inputMolarMass.value));
+        }
+
+        
+        if((inputConversion.value == "particles") && (outputConversion.value == "moles")){ // when converting grams to moles
+            convertOutput.innerHTML = parseInt(inputAmount.value) / avogadro;
+        }
+
+        if((inputConversion.value == "moles") && (outputConversion.value == "particles")){ // when converting grams to moles
+            convertOutput.innerHTML = parseInt(inputAmount.value) * avogadro;
+        }
+
         
     });
+
+
+    // when either the inputConversion or the outputConversion dropdown menu selection changes --> run ChangeConvertText
+    inputConversion.addEventListener("change", ChangeConvertText);
+    outputConversion.addEventListener("change", ChangeConvertText); 
+
+    function ChangeConvertText() {  // changes the convert ... to ... text elements on change AND removes molarmass elements 
+        // changes the paragraphs
+        inputConversionUnit.innerHTML = inputConversion.value; // changes the <p> with inputconversion unit in it
+        outputConversionUnit.innerHTML = outputConversion.value; // changes the <p> with outputconversion unit in it
+        answerOutputUnit.innerHTML = outputConversion.value; // changes the <p> with the output answer unit in it
+
+
+
+
+        // hides html elements
+        if((inputConversion.value == "particles") && (outputConversion.value == "moles")){ // when converting grams to moles
+            inputMolarMass.style.visibility = "hidden"; 
+        }
+        if((inputConversion.value == "moles") && (outputConversion.value == "particles")){ // when converting grams to moles
+            inputMolarMass.style.visibility = "hidden";
+        }
+
+        // shows html elements  
+        if((inputConversion.value == "grams") && (outputConversion.value == "moles")){ // when converting grams to moles
+            inputMolarMass.style.visibility = "visible";
+        }
+        
+        if((inputConversion.value == "moles") && (outputConversion.value == "grams")){ // when converting grams to moles
+            inputMolarMass.style.visibility = "visible";
+        }
+
+
+
+
+
+    }
+    // ?? sometimes the answer output unit uses the inputconversion value 
+    // ?? this only happens when first loading the page and then selecting 'moles' in the input menu
+    // ?? this also change the convert .. to .. <p> tag
+
+    inputConversion.addEventListener("change", changeSelection); // on changing inputConversion form --> run setSelection
+
+    function changeSelection() { // changes the dropdown menu so you can't convert moles to moles
+   
+        deletedValue = inputConversion.value;
+        outputConversion.remove(deletedValue); // deletes outputConversion value when it is selected in inputConversion dropdown menu
+
+        if(inputConversion.value != deletedValue.value){ // adds element that has been deleted previous due to selection
+            var option = document.createElement("option"); 
+            option.text = deletedValue;
+            outputConversion.add(option);
+        }
+
+    //     // ?? make it work both ways (maybe use different id's for every dropdown menu)
+    //     // ?? prevent double re-adding of element that was deleted in dropdown menu
+    //     // ?? only re-add deleted element when the once more changed element is not the same
+    }
+
 
 });

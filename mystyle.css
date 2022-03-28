@@ -16,14 +16,10 @@ h1 {
     font-size: 600%;
 }
 
-
 .center {
 margin-left: auto;
 margin-right: auto;
 }
-
-
-
 
 .header img {
   float: left;
@@ -38,7 +34,7 @@ margin-right: auto;
   left: 10px;
 }
 
-#parent { white-space: nowrap; }
+.parent { white-space: nowrap; }
 .child { display: inline-block; }
 
 
