@@ -8,10 +8,4 @@ This molar mass calculator calculates the molecular weight of a given input form
 * The charge of an ion is not necessary and will return an error when included.
 
 Examples of correct formula notations are:
-H2O
-CO2
-BaO
-FeCl2
-C6H12O6
-Ca(OH)2
-(NH4)2CO3
+H2O, CO2, BaO, FeCl2, C6H12O6, Ca(OH)2 and (NH4)2CO3

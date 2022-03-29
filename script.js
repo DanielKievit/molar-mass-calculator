@@ -377,7 +377,6 @@ document.addEventListener("DOMContentLoaded", function () {
             convertOutput.innerHTML = (parseInt(inputAmount.value) * parseInt(inputMolarMass.value));
         }
 
-        
         if((inputConversion.value == "particles") && (outputConversion.value == "moles")){ // when converting grams to moles
             convertOutput.innerHTML = parseInt(inputAmount.value) / avogadro;
         }
@@ -386,7 +385,6 @@ document.addEventListener("DOMContentLoaded", function () {
             convertOutput.innerHTML = parseInt(inputAmount.value) * avogadro;
         }
 
-        
     });
 
 
@@ -420,10 +418,6 @@ document.addEventListener("DOMContentLoaded", function () {
             inputMolarMass.style.visibility = "visible";
         }
 
-
-
-
-
     }
     // ?? sometimes the answer output unit uses the inputconversion value 
     // ?? this only happens when first loading the page and then selecting 'moles' in the input menu
@@ -446,6 +440,4 @@ document.addEventListener("DOMContentLoaded", function () {
     //     // ?? prevent double re-adding of element that was deleted in dropdown menu
     //     // ?? only re-add deleted element when the once more changed element is not the same
     }
-
-
 });
