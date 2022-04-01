@@ -117,214 +117,54 @@ const molecular_weights = {
 // definition of avogadro's number
 avogadro = 6.0221409e+23; 
 
-function calculatemolarmassof(inputformula) {
-    components = inputformula.match(/[A-Z][a-z]?|[0-9]+|[()]/g);
-
-    function isNumeric(num) {
-        return !isNaN(num);
-    }
-
-    for (e in components) {
-        if (molecular_weights[e] == undefined && e != '(' && e != ')' && isNumeric(e) == false) {
-            console.log("Error: make sure to type the elements like this: 'NaOH' or 'Fe2O3' or Fe(OH)2");
-        }
-    }
-
-    i = 0
-    weight_list = []
-
-    for (x in components) {
-        NextIsNumeric = false;
-        CurrentIsParanthesis = false;
-
-        if (i < (components.length) - 1) {
-            NextIsNumeric = isNumeric(components[i + 1]);
-
-            if (components[i].includes("(")) {
-                CurrentIsParanthesis = true;
-            }
-        }
-        else {
-            NextIsNumeric = false;
-        }
-        Substring = [];
-
-        if (CurrentIsParanthesis) {
-            IndexOfFirstParanthesis = components.indexOf("(") + 1;
-            IndexOfSecondParanthesis = components.indexOf(")");
-
-            const range = (start, end, length = end - start) =>
-                Array.from({ length }, (_, i) => start + i);
-
-            SubstringCount = range(IndexOfFirstParanthesis, IndexOfSecondParanthesis);
-
-            let Substring = [];
-
-            for (let x in SubstringCount) {
-                Substring.push(components[SubstringCount[y]]);
-
-            }
-           
-            // HIER IF STATEMENTS
-            SubstringFactor = components[IndexOfSecondParanthesis + 1];
-
-            p = 0;
-            Substring_weight_list = [];
-
-            for (let x in Substring) {
-                NextSubstringIsNumeric = false;
-                if (p < Substring.length - 1) {
-                    NextSubstringIsNumeric = isNumeric(Substring[p + 1]);
-                }
-                else {
-                    NextSubstringIsNumeric = false;
-                }
-                if (NextSubstringIsNumeric) {
-                    Substring_component_weight = (Substring[p + 1]) * (molecular_weights[Substring[p]]);
-                    Substring_weight_list.push(Substring_component_weight);
-                    p += 2;
-                }
-                else {
-                    if (p <= Substring.length - 1) {
-                        Substring_component_weight = (molecular_weights[Substring[p]]);
-                        Substring_weight_list.push(Substring_component_weight);
-                        p += 1;
-                    }
-                }
-            }
-
-            let total_substring_weight = 0;
-
-            for (let x = 0; x < Substring_weight_list.length; x++) {
-                total_substring_weight += Substring_weight_list[x];
-            }
-
-            ParanthesisWeight = SubstringFactor * total_substring_weight;
-
-            i = IndexOfSecondParanthesis + 2;
-        }
-        if (NextIsNumeric) {
-            component_weight = (components[i + 1]) * (molecular_weights[components[i]]);
-            weight_list.push(component_weight);
-            i += 2;
-        }
-        else {
-            if (i <= (components.length - 1)) {
-                component_weight = molecular_weights[components[i]];
-                weight_list.push(component_weight);
-                i += 1;
-            }
-        }
-    }
-
-    if (!components.includes("(")) {
-        ParanthesisWeight = 0;
-    }
-
-    total_weight = 0;
-    for (let x = 0; x < weight_list.length; x++) {
-        total_weight += weight_list[x];
-    }
-    total_weight += ParanthesisWeight;
-
-    total_weight = Number((total_weight).toFixed(3));
-
-    // code to create the explanation table
-    // ONLY WORKS WITHOUT ()
-
-    let element_list_filtered = [];
-
-    if (!components.includes("(")) { // create table lists in the case that components don't include ()
-        element_list = inputformula.match(/[A-Z][a-z]?/g); // split the string into only elements i.e. Fe(OH)2 --> [Fe, O, H] 
-        console.log(element_list);
-     
-         element_list_filtered = element_list.filter(function(item, pos) { //filters all the same elements in the element_list
-            double_list = [];
-
-            console.log(element_list.indexOf(item) == pos);
-            console.log(pos); 
-            
-            double_list.push(Boolean(element_list.indexOf(item) == pos)); // ?? why does it print the console.log many times, but only pushes the first boolean to the double_list??
-            
-            // HOW TO REMOVE DOUBLE ELEMENTS FROM THE TABLE AND MERGE THEM INTO ONE ELEMENT AND SIMULTANEOUSLY HAVE THE CORRECT INDEX OF THIS ELEMENT
-            // only works without ()
-            // 1) create list of true, true, false, false, true etc.
-            // 2) find the index of all false elements --> this is the index of all double elements in the original element_list
-            // 3) check if next index after the double index is numeric
-            //      if not numeric --> index to add up = 1
-            //      if numeric --> index to add up = next index after double element in the components list 
-            // 4) create a sum of all indexes and display this as the amount of elements in the table
-
-            return element_list.indexOf(item) == pos; 
-        });
-        
-        var digit_list = [];
-        molecular_weight_list = [];
-        total_weight_list = [];
-    
-        for (let x in element_list_filtered){
-            index_of_elements = components.indexOf(element_list_filtered[x]); // look up the index number of the element_list in the components list i.e. O of the element_list would have index 2 in components list
-            if(isNumeric(components[index_of_elements+1])){ // check if the next index after an element is numeric
-               digit_list.push(parseInt(components[index_of_elements+1])); // if the next index after an element is numeric, append the number to the digit_list
-               total_weight_list.push((components[index_of_elements+1]) * molecular_weights[element_list[x]]);
-            }else{
-                digit_list.push(1); // if the next index after an element in not numeric, the coefficient is 1
-                total_weight_list.push(molecular_weights[element_list_filtered[x]]);
-            }
-            molecular_weight_list.push(molecular_weights[element_list_filtered[x]]);
-        }
-    
-    }else{ // create table lists in the case that components includes ()
-        element_list = inputformula.match(/[A-Z][a-z]?/g);
-        // console.log(element_list);
-
-        for (let x in element_list){
-            // console.log(components.indexOf(element_list[x])); // returns the indexes of all elements 
-        }
-
-
-        // check if previous index of element_list contains (
-        // then add that to paranthesis list
-
-        // element_list CHECK
-        // digit_list --> should be adapted
-        // molecular_weight_list --> still the same
-        // total weight list  --> 
-    
-        /* 
-            Bij eerste encounter met element in element_list 
-            dit alles vóór het printen van het element
-            1. kijken of het element al in de list zit ergens anders
-            2. als niet: printen
-            3. als wel: 
-                1. delete that element from digit_list --> prevents it from being printed
-                2. add the 'index' of that element to 
-                
-        */ 
-
-
-
-    }
-
-    
-    
-    console.log(digit_list);
-
-    const output = [];
-
-    for(let i = 0; i < digit_list.length; i++) { // change this part --> GOAL: join all elements that are the same in 
-        output.push({
-            "count": digit_list[i],
-            "element": element_list_filtered[i],
-            "weight": molecular_weight_list[i],
-            "total": total_weight_list[i]
-        });
-    }
-
+function splitComponentString(component){
+    const componentName = component.match(/[A-Z][a-z]?/g)[0];
+    const componentCount = parseInt(component.match(/\d\d?/g)?.[0] || 1);
     return {
-        "table": output,
-        "total": total_weight
+        element: componentName,
+        count: componentCount || 1
     };
+}
+
+function calculatemolarmassof(inputformula) { 
+    // split the formula into components
+    const componentsOrGroups = inputformula.match(/([A-Z][a-z]?\d?\d?|\(.*?\)\d\d?)/g);
+    const groups = componentsOrGroups.filter(function(componentOrGroup) {
+        return componentOrGroup.startsWith("(");
+    });
+    let components = componentsOrGroups.filter(function(componentOrGroup) {
+        return !componentOrGroup.startsWith("(");
+    }).map(splitComponentString);
+    // split groups into components and add to components 
+    groups.forEach(group => {
+        let componentsInGroup = group.match(/([A-Z][a-z]?\d?\d?)/g);
+        const factor = parseInt(group.match(/\d\d?$/g));
+        componentsInGroup = componentsInGroup.map(splitComponentString);
+        componentsInGroup.forEach(component => {
+            component.count = component.count * factor;
+        });
+        components = components.concat(componentsInGroup);
+    });
+    // merge duplicate components
+    components = components.reduce(function(acc, component) {
+        const existingComponent = acc.find(function(existingComponent) {
+            return existingComponent.element === component.element;
+        });
+        if (existingComponent) {
+            existingComponent.count += component.count;
+        } else {
+            acc.push(component);
+        }
+        return acc;
+    }, []);
+    // calculate the molecular mass
+    const weights = components.map(component => {
+        component.weight = molecular_weights[component.element];
+        component.total = component.weight * component.count;
+        return component.total;
+    });
+    const sum = weights.reduce((a, b) => a + b, 0);
+    return {total: sum, table: components};
 }
 
 
@@ -375,7 +215,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (isNaN(values.total)) {
             output.innerHTML = "error";
-            return; // what does this do
+            return; 
         } else {
             output.innerHTML = values.total; // zet de HTML waarde van het 'mass' element naar de berekende massa
         }
