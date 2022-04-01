@@ -379,13 +379,59 @@ document.addEventListener("DOMContentLoaded", function () {
             convertOutput.innerHTML = inputAmount.value * molarity.value * Vm;
         }
 
+        
         // litres (gas) to ...
         if((inputConversion.value == "litres (gas)") && (outputConversion.value == "moles")){ // when converting litres (gas) to moles
+            if(tempForVm.value == "T=273 K, p=p0"){
+                const Vm = 22.4;
+            }
+            if(tempForVm.value == "T=298 K, p=p0"){
+                const Vm = 24.5;
+            }
+            convertOutput.innerHTML = inputAmount.value / Vm;
+        }
+        if((inputConversion.value == "litres (gas)") && (outputConversion.value == "grams")){ // when converting litres (gas) to grams
+            if(tempForVm.value == "T=273 K, p=p0"){
+                const Vm = 22.4;
+            }
+            if(tempForVm.value == "T=298 K, p=p0"){
+                const Vm = 24.5;
+            }
+            convertOutput.innerHTML = (inputAmount.value / Vm) * inputMolarMass.value; 
+        }
+        if((inputConversion.value == "litres (gas)") && (outputConversion.value == "litres")){ // when converting litres (gas) to litres
+            if(tempForVm.value == "T=273 K, p=p0"){
+                const Vm = 22.4;
+            }
+            if(tempForVm.value == "T=298 K, p=p0"){
+                const Vm = 24.5;
+            }
+            convertOutput.innerHTML = ((inputAmount.value / Vm) * inputMolarMass.value) / density.value;
+        }
+        if((inputConversion.value == "litres (gas)") && (outputConversion.value == "particles")){ // when converting litres (gas) to particles
+            if(tempForVm.value == "T=273 K, p=p0"){
+                const Vm = 22.4;
+            }
+            if(tempForVm.value == "T=298 K, p=p0"){
+                const Vm = 24.5;
+            }
+            convertOutput.innerHTML = (inputAmount.value / Vm) * avogadro;
+        }
+        if((inputConversion.value == "litres (gas)") && (outputConversion.value == "moles/L")){ // when converting litres (gas) to moles/L
+            if(tempForVm.value == "T=273 K, p=p0"){
+                const Vm = 22.4;
+            }
+            if(tempForVm.value == "T=298 K, p=p0"){
+                const Vm = 24.5;
+            }
+            convertOutput.innerHTML = (inputAmount.value / Vm) / volume.value;
+        }
+        if((inputConversion.value == "litres (gas)") && (outputConversion.value == "litres (solution)")){ // when converting litres (gas) to litres (solution)
             let Vm = 22.4;
             if(tempForVm.value == "T=298 K, p=p0"){
                 Vm = 24.5;
             }
-            convertOutput.innerHTML = inputAmount.value / Vm;
+            convertOutput.innerHTML = (inputAmount.value / Vm) / molarity.value;
         }
     });
 
