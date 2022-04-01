@@ -252,11 +252,9 @@ document.addEventListener("DOMContentLoaded", function () {
             convertOutput.innerHTML = inputAmount.value / molarity.value;
         }
         if((inputConversion.value == "moles") && (outputConversion.value == "litres (gas)")){ // when converting moles to litres (solution)
-            if(tempForVm.value == "T=273 K, p=p0"){
-                const Vm = 22.4;
-            }
+            let Vm = 22.4;
             if(tempForVm.value == "T=298 K, p=p0"){
-                const Vm = 24.5;
+                Vm = 24.5;
             }
             convertOutput.innerHTML = inputAmount.value * Vm;
         }
@@ -278,11 +276,9 @@ document.addEventListener("DOMContentLoaded", function () {
             convertOutput.innerHTML = (inputAmount.value / inputMolarMass.value) / volume.value;
         }
         if((inputConversion.value == "grams") && (outputConversion.value == "litres (gas)")){ // when converting grams to litres (gas)
-            if(tempForVm.value == "T=273 K, p=p0"){
-                const Vm = 22.4;
-            }
+            let Vm = 22.4;
             if(tempForVm.value == "T=298 K, p=p0"){
-                const Vm = 24.5;
+                Vm = 24.5;
             }
             convertOutput.innerHTML = (inputAmount.value / inputMolarMass.value) * Vm;
         }   
@@ -304,11 +300,9 @@ document.addEventListener("DOMContentLoaded", function () {
             convertOutput.innerHTML = ((inputAmount.value * density.value) / inputMolarMass.value) / molarity.value;
         }
         if((inputConversion.value == "litres") && (outputConversion.value == "litres (gas)")){ // when converting litres to litres (gas)
-            if(tempForVm.value == "T=273 K, p=p0"){
-                const Vm = 22.4;
-            }
+            let Vm = 22.4;
             if(tempForVm.value == "T=298 K, p=p0"){
-                const Vm = 24.5;
+                Vm = 24.5;
             }
             convertOutput.innerHTML = ((inputAmount.value * density.value) / inputMolarMass.value) * Vm;
         }
@@ -330,11 +324,9 @@ document.addEventListener("DOMContentLoaded", function () {
             convertOutput.innerHTML = ((inputAmount.value / avogadro) / molarity.value);
         }
         if((inputConversion.value == "particles") && (outputConversion.value == "litres (gas)")){ // when converting particles to litres (gas)
-            if(tempForVm.value == "T=273 K, p=p0"){
-                const Vm = 22.4;
-            }
+            let Vm = 22.4;
             if(tempForVm.value == "T=298 K, p=p0"){
-                const Vm = 24.5;
+                Vm = 24.5;
             }
             convertOutput.innerHTML = ((inputAmount.value / avogadro) * Vm);
         }
@@ -356,11 +348,9 @@ document.addEventListener("DOMContentLoaded", function () {
             convertOutput.innerHTML = (inputAmount.value * volume.value) / molarity.value;
         }
         if((inputConversion.value == "moles/L") && (outputConversion.value == "litres (gas)")){ // when converting moles/L to litres (gas)
-            if(tempForVm.value == "T=273 K, p=p0"){
-                const Vm = 22.4;
-            }
+            let Vm = 22.4;
             if(tempForVm.value == "T=298 K, p=p0"){
-                const Vm = 24.5;
+                Vm = 24.5;
             }
             convertOutput.innerHTML = inputAmount.value * volume.value * Vm;
         }
@@ -382,22 +372,18 @@ document.addEventListener("DOMContentLoaded", function () {
             convertOutput.innerHTML = (inputAmount.value * molarity.value) / volume.value;
         }
         if((inputConversion.value == "litres (solution") && (outputConversion.value == "litres (gas)")){ // when converting litres (solution) to moles/L
-            if(tempForVm.value == "T=273 K, p=p0"){
-                const Vm = 22.4;
-            }
+            let Vm = 22.4;
             if(tempForVm.value == "T=298 K, p=p0"){
-                const Vm = 24.5;
+                Vm = 24.5;
             }
             convertOutput.innerHTML = inputAmount.value * molarity.value * Vm;
         }
 
         // litres (gas) to ...
         if((inputConversion.value == "litres (gas)") && (outputConversion.value == "moles")){ // when converting litres (gas) to moles
-            if(tempForVm.value == "T=273 K, p=p0"){
-                const Vm = 22.4;
-            }
+            let Vm = 22.4;
             if(tempForVm.value == "T=298 K, p=p0"){
-                const Vm = 24.5;
+                Vm = 24.5;
             }
             convertOutput.innerHTML = inputAmount.value / Vm;
         }
