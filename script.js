@@ -154,13 +154,13 @@ function calculatemolarmassof(inputformula) {
             IndexOfSecondParanthesis = components.indexOf(")");
 
             const range = (start, end, length = end - start) =>
-                Array.from({ length }, (_, i) => start + i)
+                Array.from({ length }, (_, i) => start + i);
 
             SubstringCount = range(IndexOfFirstParanthesis, IndexOfSecondParanthesis);
 
             let Substring = [];
 
-            for (y in SubstringCount) {
+            for (let x in SubstringCount) {
                 Substring.push(components[SubstringCount[y]]);
 
             }
@@ -171,7 +171,7 @@ function calculatemolarmassof(inputformula) {
             p = 0;
             Substring_weight_list = [];
 
-            for (z in Substring) {
+            for (let x in Substring) {
                 NextSubstringIsNumeric = false;
                 if (p < Substring.length - 1) {
                     NextSubstringIsNumeric = isNumeric(Substring[p + 1]);
@@ -195,8 +195,8 @@ function calculatemolarmassof(inputformula) {
 
             let total_substring_weight = 0;
 
-            for (let u = 0; u < Substring_weight_list.length; u++) {
-                total_substring_weight += Substring_weight_list[u];
+            for (let x = 0; x < Substring_weight_list.length; x++) {
+                total_substring_weight += Substring_weight_list[x];
             }
 
             ParanthesisWeight = SubstringFactor * total_substring_weight;
@@ -221,7 +221,7 @@ function calculatemolarmassof(inputformula) {
         ParanthesisWeight = 0;
     }
 
-    total_weight = 0
+    total_weight = 0;
     for (let x = 0; x < weight_list.length; x++) {
         total_weight += weight_list[x];
     }
@@ -232,42 +232,58 @@ function calculatemolarmassof(inputformula) {
     // code to create the explanation table
     // ONLY WORKS WITHOUT ()
 
+    let element_list_filtered = [];
+
     if (!components.includes("(")) { // create table lists in the case that components don't include ()
         element_list = inputformula.match(/[A-Z][a-z]?/g); // split the string into only elements i.e. Fe(OH)2 --> [Fe, O, H] 
         console.log(element_list);
-        // plan: hier dezelfde elementen verwijderen --> onthoud de totale index aantal elements 
      
-        element_list = element_list.filter(function(item, pos) {
-            return element_list.indexOf(item) == pos;
-        });
+         element_list_filtered = element_list.filter(function(item, pos) { //filters all the same elements in the element_list
+            double_list = [];
 
-        console.log(element_list);
+            console.log(element_list.indexOf(item) == pos);
+            console.log(pos); 
+            
+            double_list.push(Boolean(element_list.indexOf(item) == pos)); // ?? why does it print the console.log many times, but only pushes the first boolean to the double_list??
+            
+            // HOW TO REMOVE DOUBLE ELEMENTS FROM THE TABLE AND MERGE THEM INTO ONE ELEMENT AND SIMULTANEOUSLY HAVE THE CORRECT INDEX OF THIS ELEMENT
+            // only works without ()
+            // 1) create list of true, true, false, false, true etc.
+            // 2) find the index of all false elements --> this is the index of all double elements in the original element_list
+            // 3) check if next index after the double index is numeric
+            //      if not numeric --> index to add up = 1
+            //      if numeric --> index to add up = next index after double element in the components list 
+            // 4) create a sum of all indexes and display this as the amount of elements in the table
+
+            return element_list.indexOf(item) == pos; 
+        });
         
         var digit_list = [];
         molecular_weight_list = [];
         total_weight_list = [];
     
-        for (x in element_list){
-            index_of_elements = components.indexOf(element_list[x]); // look up the index number of the element_list in the components list i.e. O of the element_list would have index 2 in components list
+        for (let x in element_list_filtered){
+            index_of_elements = components.indexOf(element_list_filtered[x]); // look up the index number of the element_list in the components list i.e. O of the element_list would have index 2 in components list
             if(isNumeric(components[index_of_elements+1])){ // check if the next index after an element is numeric
                digit_list.push(parseInt(components[index_of_elements+1])); // if the next index after an element is numeric, append the number to the digit_list
                total_weight_list.push((components[index_of_elements+1]) * molecular_weights[element_list[x]]);
             }else{
                 digit_list.push(1); // if the next index after an element in not numeric, the coefficient is 1
-                total_weight_list.push(molecular_weights[element_list[x]]);
+                total_weight_list.push(molecular_weights[element_list_filtered[x]]);
             }
-            molecular_weight_list.push(molecular_weights[element_list[x]]);
+            molecular_weight_list.push(molecular_weights[element_list_filtered[x]]);
         }
+    
     }else{ // create table lists in the case that components includes ()
         element_list = inputformula.match(/[A-Z][a-z]?/g);
         // console.log(element_list);
 
-        for (x in element_list){
+        for (let x in element_list){
             // console.log(components.indexOf(element_list[x])); // returns the indexes of all elements 
         }
 
 
-          // check if previous index of element_list contains (
+        // check if previous index of element_list contains (
         // then add that to paranthesis list
 
         // element_list CHECK
@@ -291,7 +307,7 @@ function calculatemolarmassof(inputformula) {
     }
 
     
-    console.log(element_list);
+    
     console.log(digit_list);
 
     const output = [];
@@ -299,7 +315,7 @@ function calculatemolarmassof(inputformula) {
     for(let i = 0; i < digit_list.length; i++) { // change this part --> GOAL: join all elements that are the same in 
         output.push({
             "count": digit_list[i],
-            "element": element_list[i],
+            "element": element_list_filtered[i],
             "weight": molecular_weight_list[i],
             "total": total_weight_list[i]
         });
@@ -322,13 +338,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const convertForm = document.getElementById("convert-form");
     const inputAmount = document.getElementById("input-amount");
+
+    // input fields for calculator
     const inputMolarMass = document.getElementById("input-molarmass");
+    const density = document.getElementById("density");
+    const molarity = document.getElementById("molarity");
+    const volume = document.getElementById("volume");
+    const tempForVm = document.getElementById("temp-for-Vm");
     
     const outputAmount = document.getElementById("output-amount");
     const convertOutput = document.getElementById("convert-output");
     
-    const inputConversion = document.getElementById("input-conversion");
-    const outputConversion = document.getElementById("output-conversion");
+    // const inputConversion = document.getElementById("input-conversion");
+    // const outputConversion = document.getElementById("output-conversion");
+
+    var inputConversion = select = document.getElementById( 'input-conversion' );
+    var outputConversion = select = document.getElementById( 'output-conversion' );
 
     var inputConversionUnit = document.getElementById("input-conversion-unit");
     var outputConversionUnit = document.getElementById("output-conversion-unit");
@@ -338,11 +363,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const answerOutputUnit = document.getElementById("answer-output-unit");
 
+    const calculateButton = document.getElementById("calculate-button");
+
 
     // luister wanneer data wordt verzonden
     form.addEventListener("submit", function (e) {
         table.innerHTML = ""; // leeg tabel
-
 
         e.preventDefault(); // prevent sending the default blank input
         const values = calculatemolarmassof(inputFormula.value); // zet variabele 'mass' naar de berekende massa
@@ -366,27 +392,176 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    convertForm.addEventListener("submit", function(e) {
+    calculateButton.addEventListener("submit", function(e) {
         e.preventDefault();
 
+        // moles to ...
+        if((inputConversion.value == "moles") && (outputConversion.value == "grams")){ // when converting moles to grams
+            convertOutput.innerHTML = inputAmount.value * inputMolarMass.value;
+        }
+        if((inputConversion.value == "moles") && (outputConversion.value == "litres")){ // when converting moles to litres
+            convertOutput.innerHTML = ((inputAmount.value * inputMolarMass.value) / density.value);
+        }
+        if((inputConversion.value == "moles") && (outputConversion.value == "particles")){ // when converting moles to particles
+            convertOutput.innerHTML = inputAmount.value * avogadro;
+        }
+        if((inputConversion.value == "moles") && (outputConversion.value == "moles/L")){ // when converting moles to moles/L
+            convertOutput.innerHTML = inputAmount.value / volume.value;
+        }
+        if((inputConversion.value == "moles") && (outputConversion.value == "litres (solution)")){ // when converting moles to litres (solution)
+            convertOutput.innerHTML = inputAmount.value / molarity.value;
+        }
+        if((inputConversion.value == "moles") && (outputConversion.value == "litres (gas)")){ // when converting moles to litres (solution)
+            if(tempForVm.value == "T=273 K, p=p0"){
+                const Vm = 22.4;
+            }
+            if(tempForVm.value == "T=298 K, p=p0"){
+                const Vm = 24.5;
+            }
+            convertOutput.innerHTML = inputAmount.value * Vm;
+        }
+
+        // grams to ...
         if((inputConversion.value == "grams") && (outputConversion.value == "moles")){ // when converting grams to moles
-            convertOutput.innerHTML = (parseInt(inputAmount.value) / parseInt(inputMolarMass.value));
+            convertOutput.innerHTML = inputAmount.value / inputMolarMass.value;
         }
+        if((inputConversion.value == "grams") && (outputConversion.value == "litres")){ // when converting grams to litres
+            convertOutput.innerHTML = inputAmount.value / density.value;
+        }
+        if((inputConversion.value == "grams") && (outputConversion.value == "particles")){ // when converting grams to particles
+            convertOutput.innerHTML = (inputAmount.value / inputMolarMass.value) * avogadro;
+        }
+        if((inputConversion.value == "grams") && (outputConversion.value == "moles/L")){ // when converting grams to moles/L
+            convertOutput.innerHTML = (inputAmount.value / inputMolarMass.value) / volume.value;
+        }
+        if((inputConversion.value == "grams") && (outputConversion.value == "litres (solution)")){ // when converting grams to litres (solution)
+            convertOutput.innerHTML = (inputAmount.value / inputMolarMass.value) / volume.value;
+        }
+        if((inputConversion.value == "grams") && (outputConversion.value == "litres (gas)")){ // when converting grams to litres (gas)
+            if(tempForVm.value == "T=273 K, p=p0"){
+                const Vm = 22.4;
+            }
+            if(tempForVm.value == "T=298 K, p=p0"){
+                const Vm = 24.5;
+            }
+            convertOutput.innerHTML = (inputAmount.value / inputMolarMass.value) * Vm;
+        }   
         
-        if((inputConversion.value == "moles") && (outputConversion.value == "grams")){ // when converting grams to moles
-            convertOutput.innerHTML = (parseInt(inputAmount.value) * parseInt(inputMolarMass.value));
+        // litres to ...
+        if((inputConversion.value == "litres") && (outputConversion.value == "moles")){ // when converting litres to moles
+            convertOutput.innerHTML = (inputAmount.value * density.value) / inputMolarMass.value;
+        }
+        if((inputConversion.value == "litres") && (outputConversion.value == "grams")){ // when converting litres to grams
+            convertOutput.innerHTML = inputAmount.value * density.value;
+        }
+        if((inputConversion.value == "litres") && (outputConversion.value == "particles")){ // when converting litres to particles
+            convertOutput.innerHTML = ((inputAmount.value * density.value) / inputMolarMass.value) * avogadro;
+        }
+        if((inputConversion.value == "litres") && (outputConversion.value == "moles/L")){ // when converting litres to moles/L
+            convertOutput.innerHTML = ((inputAmount.value * density.value) / inputMolarMass.value) / volume.value;
+        }
+        if((inputConversion.value == "litres") && (outputConversion.value == "litres (solution)")){ // when converting litres to litres (solution)
+            convertOutput.innerHTML = ((inputAmount.value * density.value) / inputMolarMass.value) / molarity.value;
+        }
+        if((inputConversion.value == "litres") && (outputConversion.value == "litres (gas)")){ // when converting litres to litres (gas)
+            if(tempForVm.value == "T=273 K, p=p0"){
+                const Vm = 22.4;
+            }
+            if(tempForVm.value == "T=298 K, p=p0"){
+                const Vm = 24.5;
+            }
+            convertOutput.innerHTML = ((inputAmount.value * density.value) / inputMolarMass.value) * Vm;
         }
 
-        if((inputConversion.value == "particles") && (outputConversion.value == "moles")){ // when converting grams to moles
-            convertOutput.innerHTML = parseInt(inputAmount.value) / avogadro;
+        // particles to ... 
+        if((inputConversion.value == "particles") && (outputConversion.value == "moles")){ // when converting particles to moles
+            convertOutput.innerHTML = inputAmount.value / avogadro;
+        }
+        if((inputConversion.value == "particles") && (outputConversion.value == "grams")){ // when converting particles to grams
+            convertOutput.innerHTML = (inputAmount.value / avogadro) * inputMolarMass.value;
+        }
+        if((inputConversion.value == "particles") && (outputConversion.value == "litres")){ // when converting particles to litres
+            convertOutput.innerHTML = ((inputAmount.value / avogadro) * inputMolarMass.value) / density.value;
+        }
+        if((inputConversion.value == "particles") && (outputConversion.value == "moles/L")){ // when converting particles to moles/L
+            convertOutput.innerHTML = ((inputAmount.value / avogadro) / volume.value);
+        }
+        if((inputConversion.value == "particles") && (outputConversion.value == "litres (solution)")){ // when converting particles to litres (solution)
+            convertOutput.innerHTML = ((inputAmount.value / avogadro) / molarity.value);
+        }
+        if((inputConversion.value == "particles") && (outputConversion.value == "litres (gas)")){ // when converting particles to litres (gas)
+            if(tempForVm.value == "T=273 K, p=p0"){
+                const Vm = 22.4;
+            }
+            if(tempForVm.value == "T=298 K, p=p0"){
+                const Vm = 24.5;
+            }
+            convertOutput.innerHTML = ((inputAmount.value / avogadro) * Vm);
         }
 
-        if((inputConversion.value == "moles") && (outputConversion.value == "particles")){ // when converting grams to moles
-            convertOutput.innerHTML = parseInt(inputAmount.value) * avogadro;
+        // moles/L to ...
+        if((inputConversion.value == "moles/L") && (outputConversion.value == "moles")){ // when converting moles/L to moles
+            convertOutput.innerHTML = inputAmount.value * volume.value;
+        }
+        if((inputConversion.value == "moles/L") && (outputConversion.value == "grams")){ // when converting moles/L to grams
+            convertOutput.innerHTML = inputAmount.value * volume.value * inputMolarMass.value;
+        }
+        if((inputConversion.value == "moles/L") && (outputConversion.value == "litres")){ // when converting moles/L to litres
+            convertOutput.innerHTML = (inputAmount.value * volume.value * inputMolarMass.value) / density.value;
+        }
+        if((inputConversion.value == "moles/L") && (outputConversion.value == "particles")){ // when converting moles/L to particles
+            convertOutput.innerHTML = inputAmount.value * volume.value * avogadro;
+        }
+        if((inputConversion.value == "moles/L") && (outputConversion.value == "litres (solution)")){ // when converting moles/L to litres (solution)
+            convertOutput.innerHTML = (inputAmount.value * volume.value) / molarity.value;
+        }
+        if((inputConversion.value == "moles/L") && (outputConversion.value == "litres (gas)")){ // when converting moles/L to litres (gas)
+            if(tempForVm.value == "T=273 K, p=p0"){
+                const Vm = 22.4;
+            }
+            if(tempForVm.value == "T=298 K, p=p0"){
+                const Vm = 24.5;
+            }
+            convertOutput.innerHTML = inputAmount.value * volume.value * Vm;
         }
 
+        // litres (solution) to ...
+        if((inputConversion.value == "litres (solution") && (outputConversion.value == "moles")){ // when converting litres (solution) to moles
+            convertOutput.innerHTML = inputAmount.value * molarity.value;
+        }
+        if((inputConversion.value == "litres (solution") && (outputConversion.value == "grams")){ // when converting litres (solution) to grams
+            convertOutput.innerHTML = inputAmount.value * molarity.value * inputMolarMass.value;
+        }
+        if((inputConversion.value == "litres (solution") && (outputConversion.value == "litres")){ // when converting litres (solution) to litres
+            convertOutput.innerHTML = (inputAmount.value * molarity.value * inputMolarMass.value) / density.value;
+        }
+        if((inputConversion.value == "litres (solution") && (outputConversion.value == "particles")){ // when converting litres (solution) to particles
+            convertOutput.innerHTML = inputAmount.value * molarity.value * avogadro;
+        }
+        if((inputConversion.value == "litres (solution") && (outputConversion.value == "moles/L")){ // when converting litres (solution) to moles/L
+            convertOutput.innerHTML = (inputAmount.value * molarity.value) / volume.value;
+        }
+        if((inputConversion.value == "litres (solution") && (outputConversion.value == "litres (gas)")){ // when converting litres (solution) to moles/L
+            if(tempForVm.value == "T=273 K, p=p0"){
+                const Vm = 22.4;
+            }
+            if(tempForVm.value == "T=298 K, p=p0"){
+                const Vm = 24.5;
+            }
+            convertOutput.innerHTML = inputAmount.value * molarity.value * Vm;
+        }
+
+        // litres (gas) to ...
+        if((inputConversion.value == "litres (gas)") && (outputConversion.value == "moles")){ // when converting litres (gas) to moles
+            if(tempForVm.value == "T=273 K, p=p0"){
+                const Vm = 22.4;
+            }
+            if(tempForVm.value == "T=298 K, p=p0"){
+                const Vm = 24.5;
+            }
+            convertOutput.innerHTML = inputAmount.value / Vm;
+        }
     });
-
 
     // when either the inputConversion or the outputConversion dropdown menu selection changes --> run ChangeConvertText
     inputConversion.addEventListener("change", ChangeConvertText);
@@ -398,46 +573,57 @@ document.addEventListener("DOMContentLoaded", function () {
         outputConversionUnit.innerHTML = outputConversion.value; // changes the <p> with outputconversion unit in it
         answerOutputUnit.innerHTML = outputConversion.value; // changes the <p> with the output answer unit in it
 
+        // // hides html elements
+        // if((inputConversion.value == "particles") && (outputConversion.value == "moles")){ // when converting grams to moles
+        //     inputMolarMass.style.display = "none"; 
+        // }
+        // if((inputConversion.value == "moles") && (outputConversion.value == "particles")){ // when converting grams to moles
+        //     inputMolarMass.style.display = "none";
+        // }
 
+        // if((inputConversion.value == "moles") && (outputConversion.value == "litres (gas)")){ // when converting grams to litres (gas)
+        //     inputMolarMass.style.display = "none";
+        //     density.style.display = "none";
+        //     molarity.style.display = "none";
+        //     volume.style.display = "none";
+        // }   
 
-
-        // hides html elements
-        if((inputConversion.value == "particles") && (outputConversion.value == "moles")){ // when converting grams to moles
-            inputMolarMass.style.visibility = "hidden"; 
-        }
-        if((inputConversion.value == "moles") && (outputConversion.value == "particles")){ // when converting grams to moles
-            inputMolarMass.style.visibility = "hidden";
-        }
-
-        // shows html elements  
-        if((inputConversion.value == "grams") && (outputConversion.value == "moles")){ // when converting grams to moles
-            inputMolarMass.style.visibility = "visible";
-        }
+        // // shows html elements  
+        // if((inputConversion.value == "grams") && (outputConversion.value == "moles")){ // when converting grams to moles
+        //     inputMolarMass.style.display = "block";
+        // }
         
-        if((inputConversion.value == "moles") && (outputConversion.value == "grams")){ // when converting grams to moles
-            inputMolarMass.style.visibility = "visible";
-        }
+        // if((inputConversion.value == "moles") && (outputConversion.value == "grams")){ // when converting grams to moles
+        //     inputMolarMass.style.display = "block";
+        // }
 
     }
-    // ?? sometimes the answer output unit uses the inputconversion value 
-    // ?? this only happens when first loading the page and then selecting 'moles' in the input menu
-    // ?? this also change the convert .. to .. <p> tag
 
-    inputConversion.addEventListener("change", changeSelection); // on changing inputConversion form --> run setSelection
+    function preventDuplicates(select, index) { // prevents converting a unit to the same unit: e.g. converting 'moles' to 'moles' should not be possible
+        // outputConversion.options[1].disabled = true;
+        
 
-    function changeSelection() { // changes the dropdown menu so you can't convert moles to moles
-   
-        deletedValue = inputConversion.value;
-        outputConversion.remove(deletedValue); // deletes outputConversion value when it is selected in inputConversion dropdown menu
-
-        if(inputConversion.value != deletedValue.value){ // adds element that has been deleted previous due to selection
-            var option = document.createElement("option"); 
-            option.text = deletedValue;
-            outputConversion.add(option);
+        var options = select.options,
+            len = options.length;
+        while(len--) {
+            options[len].disabled = false;
         }
-
-    //     // ?? make it work both ways (maybe use different id's for every dropdown menu)
-    //     // ?? prevent double re-adding of element that was deleted in dropdown menu
-    //     // ?? only re-add deleted element when the once more changed element is not the same
+        select.options[index].disabled = true;
+        if(index === select.selectedIndex) {
+            alert('You cannot convert a unit to the same unit');
+            this.selectedIndex = 0;
+        }
     }
+    
+    // outputConversion.options[1].disabled = true; 
+
+    inputConversion.onchange = function() {
+        preventDuplicates.call(this, outputConversion, this.selectedIndex);
+    };
+
+
+    outputConversion.onchange = function() {
+        preventDuplicates.call(this, inputConversion, this.selectedIndex);
+    };
+
 });
