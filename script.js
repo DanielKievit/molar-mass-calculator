@@ -232,8 +232,18 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    calculateButton.addEventListener("submit", function(e) {
+    convertForm.addEventListener("submit", function(e) {
         e.preventDefault();
+
+
+        // switch(inputConversion.value) {
+        //     case "moles": 
+        //         switch(outputConversion.value) {
+        //             case "grams":
+        //                 convertOutput.innerHTML = inputAmount.value * inputMolarMass.value;
+        //             break;
+        //         break;
+
 
         // moles to ...
         if((inputConversion.value == "moles") && (outputConversion.value == "grams")){ // when converting moles to grams
@@ -472,9 +482,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function preventDuplicates(select, index) { // prevents converting a unit to the same unit: e.g. converting 'moles' to 'moles' should not be possible
-        // outputConversion.options[1].disabled = true;
-        
-
         var options = select.options,
             len = options.length;
         while(len--) {
@@ -484,16 +491,10 @@ document.addEventListener("DOMContentLoaded", function () {
         if(index === select.selectedIndex) {
             alert('You cannot convert a unit to the same unit');
             this.selectedIndex = 0;
-        }
-    }
-    
-    // outputConversion.options[1].disabled = true; 
-
+        }}
     inputConversion.onchange = function() {
         preventDuplicates.call(this, outputConversion, this.selectedIndex);
     };
-
-
     outputConversion.onchange = function() {
         preventDuplicates.call(this, inputConversion, this.selectedIndex);
     };
