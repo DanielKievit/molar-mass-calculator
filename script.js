@@ -232,11 +232,23 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    calculateButton.addEventListener("submit", function(e) {
+    convertForm.addEventListener("submit", function(e) {
         e.preventDefault();
+        nestedArray = [
+                    
+                ["x", "*M", "*M/p"],    
+                ["*M", "x", "/p"],
+                ["*M/p", "/p", "x"]
+
+            ];
+
+            console.log(nestedArray[1][0]);    
+
 
       
     });
+
+   
 
     // when either the inputConversion or the outputConversion dropdown menu selection changes --> run ChangeConvertText
     inputConversion.addEventListener("change", ChangeConvertText);
