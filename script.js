@@ -235,16 +235,6 @@ document.addEventListener("DOMContentLoaded", function () {
     convertForm.addEventListener("submit", function(e) {
         e.preventDefault();
 
-
-        // switch(inputConversion.value) {
-        //     case "moles": 
-        //         switch(outputConversion.value) {
-        //             case "grams":
-        //                 convertOutput.innerHTML = inputAmount.value * inputMolarMass.value;
-        //             break;
-        //         break;
-
-
         // moles to ...
         if((inputConversion.value == "moles") && (outputConversion.value == "grams")){ // when converting moles to grams
             convertOutput.innerHTML = inputAmount.value * inputMolarMass.value;
