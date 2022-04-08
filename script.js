@@ -235,14 +235,47 @@ document.addEventListener("DOMContentLoaded", function () {
     convertForm.addEventListener("submit", function(e) {
         e.preventDefault();
         nestedArray = [
-                    
-                ["x", "*M", "*M/p"],    
-                ["*M", "x", "/p"],
-                ["*M/p", "/p", "x"]
-
+                // INPUT (columns)
+                //MOLES, GRAMS, LITRES, PARTICLES, MOLES/L, LITRES (S), LITRES (G)          // OUTPUT (rows)
+                    ["x", "/M", "*M/p", ],                                                  // MOLES
+                    ["*M", "x", "/p"],                                                      // GRAMS
+                    ["*M/p", "/p", "x"]                                                     // LITRES
+                                                                                            // PARTICLES
+                                                                                            // MOLES/L
+                                                                                            // LITRES (SOLUTION)
+                                                                                            // LITRES (GAS)
             ];
 
-            console.log(nestedArray[1][0]);    
+            // syntax: nestedArray[output][input]
+
+            switch(inputConversion.value) {
+                case "moles":
+                    inputValue = 0;
+                    break;
+                case "grams": 
+                    inputValue = 1;
+                    break;
+                case "litres": 
+                    inputValue = 2;
+                    break;
+            }
+            switch(outputConversion.value) {
+                case "moles":
+                    outputValue = 0;
+                    break;
+                case "grams":
+                    outputValue = 1;
+                    break;
+                case "litres":
+                    outputValue = 2;
+                    break;
+            }
+
+            console.log(nestedArray[outputValue][inputValue]);    // returns for example: /M or *M
+            
+            // convert output of nestedArray (for example "/M") to an actual calculation
+            
+
 
 
       
