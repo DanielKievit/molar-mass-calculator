@@ -406,7 +406,7 @@ document.addEventListener("DOMContentLoaded", function () {
         //     if(tempForVm.value == "T=298 K, p=p0"){
         //         const Vm = 24.5;
         //     }
-        //     convertOutput.innerHTML = ((inputAmount.value / Vm) * inputMolarMass.value) / density.value;
+        //     co   nvertOutput.innerHTML = ((inputAmount.value / Vm) * inputMolarMass.value) / density.value;
         // }
         if((inputConversion.value == "litres (gas)") && (outputConversion.value == "particles")){ // when converting litres (gas) to particles
             if(tempForVm.value == "T=273 K, p=p0"){
