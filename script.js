@@ -424,28 +424,31 @@ document.addEventListener("DOMContentLoaded", function () {
         answerOutputUnit.innerHTML = outputConversion.value; // changes the <p> with the output answer unit in it
 
         // // hides html elements
-        // if((inputConversion.value == "particles") && (outputConversion.value == "moles")){ // when converting grams to moles
-        //     inputMolarMass.style.display = "none"; 
-        // }
-        // if((inputConversion.value == "moles") && (outputConversion.value == "particles")){ // when converting grams to moles
-        //     inputMolarMass.style.display = "none";
-        // }
 
-        // if((inputConversion.value == "moles") && (outputConversion.value == "litres (gas)")){ // when converting grams to litres (gas)
-        //     inputMolarMass.style.display = "none";
-        //     density.style.display = "none";
-        //     molarity.style.display = "none";
-        //     volume.style.display = "none";
-        // }   
+        // try to insert this code in the previous if statements and see if it works
 
-        // // shows html elements  
-        // if((inputConversion.value == "grams") && (outputConversion.value == "moles")){ // when converting grams to moles
-        //     inputMolarMass.style.display = "block";
-        // }
+        if((inputConversion.value == "particles") && (outputConversion.value == "moles")){ // when converting grams to moles
+            inputMolarMass.style.display = "none"; 
+        }
+        if((inputConversion.value == "moles") && (outputConversion.value == "particles")){ // when converting grams to moles
+            inputMolarMass.style.display = "none";
+        }
+
+        if((inputConversion.value == "moles") && (outputConversion.value == "litres (gas)")){ // when converting grams to litres (gas)
+            inputMolarMass.style.display = "none";
+            density.style.display = "none";
+            molarity.style.display = "none";
+            volume.style.display = "none";
+        }   
+
+        // shows html elements  
+        if((inputConversion.value == "grams") && (outputConversion.value == "moles")){ // when converting grams to moles
+            inputMolarMass.style.display = "block";
+        }
         
-        // if((inputConversion.value == "moles") && (outputConversion.value == "grams")){ // when converting grams to moles
-        //     inputMolarMass.style.display = "block";
-        // }
+        if((inputConversion.value == "moles") && (outputConversion.value == "grams")){ // when converting grams to moles
+            inputMolarMass.style.display = "block";
+        }
 
     }
 
@@ -466,5 +469,4 @@ document.addEventListener("DOMContentLoaded", function () {
     outputConversion.onchange = function() {
         preventDuplicates.call(this, inputConversion, this.selectedIndex);
     };
-
 });
