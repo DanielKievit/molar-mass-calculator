@@ -63,22 +63,23 @@
   </div>
 
   <form id="convert-form">
-    <input type="number" id="input-amount" placeholder="amount">
+    <input type="float" id="input-amount" placeholder="amount">
     
     <select name="input-conversion" id="input-conversion">
       <option value="moles">moles</option>
       <option value="grams">grams</option> 
       <option value="litres">litres</option>
       <option value="particles">particles</option>
-      <option value="moles/L">mole/L (M)</option>
+      <option value="moles/L">moles/L (M)</option>
       <option value="litres (solution)">litres (solution)</option>
       <option value="litres (gas)">litres (gas)</option>
     </select>
 
-    <input type="number" id="input-molarmass" placeholder="molar mass">
-    <input type="number" id="density" placeholder="density">
-    <input type="number" id="molarity" placeholder="molarity">
-    <input type="number" id="volume" placeholder="volume">
+    <input type="float" id="input-molarmass" placeholder="molar mass">
+    <input type="float" id="density" placeholder="density">
+    <input type="float" id="molarity" placeholder="molarity">
+    <input type="float" id="volume" placeholder="volume">
+    <input type="float" id="moles" placeholder="moles">
     <select name="temp-for-Vm" id="temp-for-Vm">
       <option value="T=273 K, p=p0">T=273 K, p=p0</option>
       <option value="T=298 K, p=p0">T=298 K, p=p0</option>
@@ -90,7 +91,7 @@
       <option value="grams">grams</option> 
       <option value="litres">litres</option>
       <option value="particles">particles</option>
-      <option value="moles/L">mole/L (M)</option>
+      <option value="moles/L">moles/L (M)</option>
       <option value="litres (solution)">litres (solution)</option>
       <option value="litres (gas)">litres (gas)</option>
     </select>
