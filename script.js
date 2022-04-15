@@ -443,11 +443,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // shows html elements  
         if((inputConversion.value == "grams") && (outputConversion.value == "moles")){ // when converting grams to moles
-            inputMolarMass.style.display = "block";
+            inputMolarMass.style.display = "inline-block";
         }
         
         if((inputConversion.value == "moles") && (outputConversion.value == "grams")){ // when converting grams to moles
-            inputMolarMass.style.display = "block";
+            inputMolarMass.style.display = "inline-block";
         }
 
     }
