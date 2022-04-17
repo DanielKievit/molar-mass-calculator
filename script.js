@@ -114,6 +114,11 @@ const molecular_weights = {
     'Uub': 277
 };
 
+// set the accuracy of both the molarmass calculation and the convertor (in decimals)
+let accuracy = 2;
+// definition of avogadro's number
+avogadro = 6.0221409e+23;
+
 function splitComponentString(component) {
     const componentName = component.match(/[A-Z][a-z]?/g)[0];
     const componentCount = parseInt(component.match(/\d\d?/g)?.[0] || 1);
