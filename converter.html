@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Chemistry Calculator</title>
-    <script src="script.js"></script>
+    <script src="converter-script.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 </head>
@@ -34,5 +34,63 @@
           
         </div>
       </section>
+
+    
+    <!-- section 3: converter -->
+    <h2><b>Converter</b></h2>
+
+    <div class="parent">
+      <p class="child">Converting </p>
+      <b>
+        <p class="child" id="input-conversion-unit"></p>
+      </b>
+      <p class="child"> to </p>
+      <b>
+        <p class="child" id="output-conversion-unit"></p>
+      </b>
+    </div>
+
+     <form id="convert-form">
+      <input type="float" id="input-amount" placeholder="amount">
+
+      <select name="input-conversion" id="input-conversion">
+        <option value="moles">moles</option>
+        <option value="grams">grams</option>
+        <option value="litres">litres</option>
+        <option value="particles">particles</option>
+        <option value="moles/L">moles/L (M)</option>
+        <option value="litres (solution)">litres (solution)</option>
+        <option value="litres (gas)">litres (gas)</option>
+      </select>
+
+      <input type="float" id="input-molarmass" placeholder="molar mass">
+      <input type="float" id="density" placeholder="density">
+      <input type="float" id="molarity" placeholder="molarity">
+      <input type="float" id="volume" placeholder="volume">
+      <input type="float" id="moles" placeholder="moles">
+      <select name="temp-for-Vm" id="temp-for-Vm">
+        <option value="T=273 K, p=p0">T=273 K, p=p0</option>
+        <option value="T=298 K, p=p0">T=298 K, p=p0</option>
+      </select>
+
+      <output id="output-amount"></output>
+      <select name="output-conversion" id="output-conversion">
+        <option value="moles">moles</option>
+        <option value="grams">grams</option>
+        <option value="litres">litres</option>
+        <option value="particles">particles</option>
+        <option value="moles/L">moles/L (M)</option>
+        <option value="litres (solution)">litres (solution)</option>
+        <option value="litres (gas)">litres (gas)</option>
+      </select>
+
+      <input id="calculate-button" type="submit" value="calculate">
+    </form> 
+
+    <div class="parent">
+      <p class="child">Answer: </p>
+      <p class="child" id="convert-output"></p>
+      <p class="child" id="answer-output-unit"></p>
+    </div>
 
 </body>
