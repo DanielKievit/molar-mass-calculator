@@ -211,32 +211,27 @@ document.addEventListener("DOMContentLoaded", function () {
     moles.style.display = "none";
     tempForVm.style.display = "none";
 
-    // function fx(e)
-    // {
-    //   var k=String.fromCharCode(e.which);
+    const subs = "₀₁₂₃₄₅₆₇₈₉",
+      sups = "⁰¹²³⁴⁵⁶⁷⁸⁹",
+      digits = subs,
+      regex = new RegExp("[" + subs + sups + "]", "g");
 
-    //   if(k.match(/\d/))
-    //   {
-    //     var r=String.fromCharCode(8320+Number(k));
-    //     try{//IE
-    //           document.selection.createRange().text=r;
-    //          }
-    //       catch(x)
-    //       {//others
-    //         var o         = e.target;
-    //         var intStart  = o.selectionStart;
-    //         var intEnd    = o.selectionEnd;
-    //         o.value = (o.value).substring(0, intStart) + r + (o.value).substring(intEnd, o.value.length);
-    //                     o.selectionStart=o.selectionEnd=intStart+r.length;
-    //                     o.focus();
-    //       }  
-    //       return false;
-    //   }
-    //   return true;
-    // }
+    inputFormula.addEventListener("input", function (e)
+    {
+    let val = e.target.value.replace(/\d/g, d => digits[d]);
+    if (val != e.target.value)
+        {
+        const start = e.target.selectionStart,
+            end = e.target.selectionEnd;
 
-    // inputFormula.addEventListener("keypress", fx);
+        e.target.value = val;
+        e.target.selectionStart = start;
+        e.target.selectionEnd = end;
+    }
+    console.log("display value:", e.target.value, "actual value:", e.target.realValue);
+    });
 
+    Object.defineProperty(inputFormula, "realValue", {get(){return this.value.replace(regex, d => digits.indexOf(d))}});
 
     form.addEventListener("submit", function (e) {
         table.innerHTML = ""; // leeg tabel
