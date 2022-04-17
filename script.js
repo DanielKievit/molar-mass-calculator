@@ -166,6 +166,7 @@ function calculatemolarmassof(inputformula) {
         return component.total;
     });
     const sum = weights.reduce((a, b) => a + b, 0);
+    console.log(components);
     return { total: sum, table: components };
 }
 
@@ -211,6 +212,7 @@ document.addEventListener("DOMContentLoaded", function () {
     moles.style.display = "none";
     tempForVm.style.display = "none";
 
+    var inputFormulaRealValue = "";
     const subs = "₀₁₂₃₄₅₆₇₈₉",
       sups = "⁰¹²³⁴⁵⁶⁷⁸⁹",
       digits = subs,
@@ -228,7 +230,7 @@ document.addEventListener("DOMContentLoaded", function () {
         e.target.selectionStart = start;
         e.target.selectionEnd = end;
     }
-    console.log("display value:", e.target.value, "actual value:", e.target.realValue);
+    inputFormulaRealValue = e.target.realValue;
     });
 
     Object.defineProperty(inputFormula, "realValue", {get(){return this.value.replace(regex, d => digits.indexOf(d))}});
@@ -236,7 +238,7 @@ document.addEventListener("DOMContentLoaded", function () {
     form.addEventListener("submit", function (e) {
         table.innerHTML = ""; // leeg tabel
         e.preventDefault(); // prevent sending the default blank input
-        const values = calculatemolarmassof(inputFormula.value); // zet variabele 'mass' naar de berekende massa
+        const values = calculatemolarmassof(inputFormulaRealValue); // zet variabele 'mass' naar de berekende massa
         if (isNaN(values.total)) {
             output.innerHTML = "error";
             return;
