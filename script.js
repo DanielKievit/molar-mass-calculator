@@ -115,7 +115,7 @@ const molecular_weights = {
 };
 
 // set the accuracy of both the molarmass calculation and the convertor (in decimals)
-let accuracy = 2;
+let accuracy = 3;
 
 function splitComponentString(component) {
     const componentName = component.match(/[A-Z][a-z]?/g)[0];
@@ -167,7 +167,6 @@ function calculatemolarmassof(inputformula) {
     return { total: sum, table: components };
 }
 
-
 // roep aan als document is geladen
 document.addEventListener("DOMContentLoaded", function () {
     // pak elementen
@@ -178,26 +177,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
     var inputFormulaRealValue = "";
     const subs = "₀₁₂₃₄₅₆₇₈₉",
-      sups = "⁰¹²³⁴⁵⁶⁷⁸⁹",
-      digits = subs,
-      regex = new RegExp("[" + subs + sups + "]", "g");
-
-    inputFormula.addEventListener("input", function (e)
-    {
-    let val = e.target.value.replace(/\d/g, d => digits[d]);
-    if (val != e.target.value)
-        {
-        const start = e.target.selectionStart,
-            end = e.target.selectionEnd;
-
-        e.target.value = val;
-        e.target.selectionStart = start;
-        e.target.selectionEnd = end;
-    }
-    inputFormulaRealValue = e.target.realValue;
+        sups = "⁰¹²³⁴⁵⁶⁷⁸⁹",
+        digits = subs,
+        regex = new RegExp("[" + subs + sups + "]", "g");
+    inputFormula.addEventListener("input", function (e) {
+        let val = e.target.value.replace(/\d/g, d => digits[d]);
+        if (val != e.target.value) {
+            const start = e.target.selectionStart,
+                end = e.target.selectionEnd;
+            e.target.value = val;
+            e.target.selectionStart = start;
+            e.target.selectionEnd = end;
+        }
+        inputFormulaRealValue = e.target.realValue;
     });
 
-    Object.defineProperty(inputFormula, "realValue", {get(){return this.value.replace(regex, d => digits.indexOf(d))}});
+    Object.defineProperty(inputFormula, "realValue", { get() { return this.value.replace(regex, d => digits.indexOf(d)) } });
 
     form.addEventListener("submit", function (e) {
         table.innerHTML = ""; // leeg tabel
@@ -220,6 +215,4 @@ document.addEventListener("DOMContentLoaded", function () {
             `;
         }
     });
-
-    
 });

@@ -1,5 +1,5 @@
 // set the accuracy of both the molarmass calculation and the convertor (in decimals)
-let accuracy = 2;
+let accuracy = 3;
 // definition of avogadro's number
 avogadro = 6.0221409e+23;
 
@@ -15,7 +15,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const moles = document.getElementById("moles");
     const tempForVm = document.getElementById("temp-for-Vm");
 
-    const outputAmount = document.getElementById("output-amount");
     const convertOutput = document.getElementById("convert-output");
 
     var inputConversion = select = document.getElementById('input-conversion');
@@ -28,7 +27,6 @@ document.addEventListener("DOMContentLoaded", function () {
     outputConversionUnit.innerHTML = String(outputConversion.value);
 
     const answerOutputUnit = document.getElementById("answer-output-unit");
-    const calculateButton = document.getElementById("calculate-button");
 
     inputMolarMass.style.display = "none";
     density.style.display = "none";
@@ -76,9 +74,6 @@ document.addEventListener("DOMContentLoaded", function () {
             if ((inputConversion.value == "grams") && (outputConversion.value == "moles/L")) { // when converting grams to moles/L
                 answer = (inputAmount.value / inputMolarMass.value) / volume.value;
             }
-            if ((inputConversion.value == "grams") && (outputConversion.value == "litres (solution)")) { // when converting grams to litres (solution)
-                conversionAlert();
-            }
             if ((inputConversion.value == "grams") && (outputConversion.value == "litres (gas)")) { // when converting grams to litres (gas)
                 let Vm = 22.4;
                 if (tempForVm.value == "T=298 K, p=p0") {
@@ -98,12 +93,6 @@ document.addEventListener("DOMContentLoaded", function () {
             }
             if ((inputConversion.value == "litres") && (outputConversion.value == "moles/L")) { // when converting litres to moles/L
                 answer = ((inputAmount.value * density.value) / inputMolarMass.value) / volume.value;
-            }
-            if ((inputConversion.value == "litres") && (outputConversion.value == "litres (solution)")) { // when converting litres to litres (solution)
-                conversionAlert();
-            }
-            if ((inputConversion.value == "litres") && (outputConversion.value == "litres (gas)")) { // when converting litres to litres (gas)
-                conversionAlert();
             }
             // particles to ... 
             if ((inputConversion.value == "particles") && (outputConversion.value == "moles")) { // when converting particles to moles
@@ -144,27 +133,15 @@ document.addEventListener("DOMContentLoaded", function () {
             if ((inputConversion.value == "moles/L") && (outputConversion.value == "litres (solution)")) { // when converting moles/L to litres (solution)
                 answer = moles.value / inputAmount.value;
             }
-            if ((inputConversion.value == "moles/L") && (outputConversion.value == "litres (gas)")) { // when converting moles/L to litres (gas)
-                conversionAlert();
-            }
             // litres (solution) to ...
             if ((inputConversion.value == "litres (solution)") && (outputConversion.value == "moles")) { // when converting litres (solution) to moles
                 answer = inputAmount.value * molarity.value;
-            }
-            if ((inputConversion.value == "litres (solution)") && (outputConversion.value == "grams")) { // when converting litres (solution) to grams
-                conversionAlert();
-            }
-            if ((inputConversion.value == "litres (solution)") && (outputConversion.value == "litres")) { // when converting litres (solution) to litres
-                conversionAlert();
             }
             if ((inputConversion.value == "litres (solution)") && (outputConversion.value == "particles")) { // when converting litres (solution) to particles
                 answer = inputAmount.value * molarity.value * avogadro;
             }
             if ((inputConversion.value == "litres (solution)") && (outputConversion.value == "moles/L")) { // when converting litres (solution) to moles/L
                 answer = moles.value / inputAmount.value;
-            }
-            if ((inputConversion.value == "litres (solution)") && (outputConversion.value == "litres (gas)")) { // when converting litres (solution) to moles/L
-                conversionAlert();
             }
             // litres (gas) to ...
             if ((inputConversion.value == "litres (gas)") && (outputConversion.value == "moles")) { // when converting litres (gas) to moles
@@ -185,9 +162,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
                 answer = (inputAmount.value / Vm) * inputMolarMass.value;
             }
-            if ((inputConversion.value == "litres (gas)") && (outputConversion.value == "litres")) { // when converting litres (gas) to litres
-                conversionAlert();
-            }
             if ((inputConversion.value == "litres (gas)") && (outputConversion.value == "particles")) { // when converting litres (gas) to particles
                 if (tempForVm.value == "T=273 K, p=p0") {
                     const Vm = 22.4;
@@ -197,20 +171,15 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
                 answer = (inputAmount.value / Vm) * avogadro;
             }
-            if ((inputConversion.value == "litres (gas)") && (outputConversion.value == "moles/L")) { // when converting litres (gas) to moles/L
-                conversionAlert();
-            }
-            if ((inputConversion.value == "litres (gas)") && (outputConversion.value == "litres (solution)")) { // when converting litres (gas) to litres (solution)
-                conversionAlert();
-            }
-            function conversionAlert() {
-                alert("This conversion is not possible");
-            }
             convertOutput.innerHTML = answer.toFixed(accuracy);
         }
         calculation();
     });
-    
+
+    function conversionAlert() {
+        alert("This conversion is not possible");
+    }
+
     // when either the inputConversion or the outputConversion dropdown menu selection changes --> run ChangeConvertText
     inputConversion.addEventListener("change", ChangeConvertText);
     outputConversion.addEventListener("change", ChangeConvertText);
