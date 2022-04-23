@@ -166,9 +166,17 @@ function calculatemolarmassof(inputformula) {
     const sum = weights.reduce((a, b) => a + b, 0);
     return { total: sum, table: components };
 }
+// import bootstrap
+import 'bootstrap';
 
 // roep aan als document is geladen
 document.addEventListener("DOMContentLoaded", function () {
+    
+    var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+    var popoverList = popoverTriggerList.map(function(element){
+        return new bootstrap.Popover(element);
+    });
+      
     // pak elementen
     const form = document.getElementById("form");
     const inputFormula = document.getElementById("input-formula");
