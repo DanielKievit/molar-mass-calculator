@@ -200,6 +200,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const values = calculatemolarmassof(inputFormulaRealValue); // zet variabele 'mass' naar de berekende massa
         if (isNaN(values.total)) {
             output.innerHTML = "error";
+            alert("Elements are case-sensitive, the first letter of an element is always uppercase. If present, the second letter of an element is always lowercase.\n\nExample:\nWater is H2O, not h2o.\nHelium is He, not HE.");
             return;
         } else {
             output.innerHTML = values.total.toFixed(accuracy); // zet de HTML waarde van het 'mass' element naar de berekende massa
