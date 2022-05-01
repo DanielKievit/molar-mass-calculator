@@ -114,7 +114,7 @@ const molecular_weights = {
     'Uub': 277
 };
 
-// set the accuracy of both the molarmass calculation and the convertor (in decimals)
+// set the accuracy of both the molarmass calculation and the converter (in decimals)
 let accuracy = 3;
 
 function splitComponentString(component) {
@@ -167,9 +167,7 @@ function calculatemolarmassof(inputformula) {
     return { total: sum, table: components };
 }
 
-// roep aan als document is geladen
-document.addEventListener("DOMContentLoaded", function () {
-    // pak elementen
+document.addEventListener("DOMContentLoaded", function () { // activate when document is loaded
     const form = document.getElementById("form");
     const inputFormula = document.getElementById("input-formula");
     const output = document.getElementById("output");

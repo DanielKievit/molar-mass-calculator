@@ -1,4 +1,4 @@
-// set the accuracy of both the molarmass calculation and the convertor (in decimals)
+// set the accuracy of both the molarmass calculation and the converter (in decimals)
 let accuracy = 3;
 // definition of avogadro's number
 avogadro = 6.0221409e+23;
@@ -28,7 +28,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const answerOutputUnit = document.getElementById("answer-output-unit");
 
-    inputMolarMass.style.display = "none";
+    // set the default display values of the input fields: configured for moles --> grams
+    inputMolarMass.style.display = "inline-block";
     density.style.display = "none";
     molarity.style.display = "none";
     volume.style.display = "none";
@@ -177,7 +178,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     function conversionAlert() {
-        alert("This conversion is not possible");
+        alert("This conversion is not possible.\nChoose another conversion to proceed.");
     }
 
     // when either the inputConversion or the outputConversion dropdown menu selection changes --> run ChangeConvertText
@@ -198,7 +199,7 @@ document.addEventListener("DOMContentLoaded", function () {
             moles.style.display = "none";
             tempForVm.style.display = "none";
         }
-        if ((inputConversion.value == "moles") && (outputConversion.value == "litres")) { // when converting moles to litres
+        if ((inputConversion.value == "moles") && (outputConversion.value == "litres (solid)")) { // when converting moles to litres
             inputMolarMass.style.display = "inline-block";
             density.style.display = "inline-block";
             molarity.style.display = "none";
@@ -247,7 +248,7 @@ document.addEventListener("DOMContentLoaded", function () {
             moles.style.display = "none";
             tempForVm.style.display = "none";
         }
-        if ((inputConversion.value == "grams") && (outputConversion.value == "litres")) { // when converting grams to litres
+        if ((inputConversion.value == "grams") && (outputConversion.value == "litres (solid)")) { // when converting grams to litres
             density.style.display = "inline-block";
             inputMolarMass.style.display = "none";
             molarity.style.display = "none";
@@ -289,7 +290,7 @@ document.addEventListener("DOMContentLoaded", function () {
             moles.style.display = "none";
         }
         // litres to ...
-        if ((inputConversion.value == "litres") && (outputConversion.value == "moles")) { // when converting litres to moles
+        if ((inputConversion.value == "litres (solid)") && (outputConversion.value == "moles")) { // when converting litres to moles
             inputMolarMass.style.display = "inline-block";
             density.style.display = "inline-block";
             molarity.style.display = "none";
@@ -297,7 +298,7 @@ document.addEventListener("DOMContentLoaded", function () {
             moles.style.display = "none";
             tempForVm.style.display = "none";
         }
-        if ((inputConversion.value == "litres") && (outputConversion.value == "grams")) { // when converting litres to grams
+        if ((inputConversion.value == "litres (solid)") && (outputConversion.value == "grams")) { // when converting litres to grams
             density.style.display = "inline-block";
             inputMolarMass.style.display = "none";
             molarity.style.display = "none";
@@ -305,7 +306,7 @@ document.addEventListener("DOMContentLoaded", function () {
             moles.style.display = "none";
             tempForVm.style.display = "none";
         }
-        if ((inputConversion.value == "litres") && (outputConversion.value == "particles")) { // when converting litres to particles
+        if ((inputConversion.value == "litres (solid)") && (outputConversion.value == "particles")) { // when converting litres to particles
             inputMolarMass.style.display = "inline-block";
             density.style.display = "inline-block";
             molarity.style.display = "none";
@@ -313,7 +314,7 @@ document.addEventListener("DOMContentLoaded", function () {
             moles.style.display = "none";
             tempForVm.style.display = "none";
         }
-        if ((inputConversion.value == "litres") && (outputConversion.value == "moles/L")) { // when converting litres to moles/L
+        if ((inputConversion.value == "litres (solid)") && (outputConversion.value == "moles/L")) { // when converting litres to moles/L
             inputMolarMass.style.display = "inline-block";
             density.style.display = "inline-block";
             volume.style.display = "inline-block";
@@ -321,7 +322,7 @@ document.addEventListener("DOMContentLoaded", function () {
             moles.style.display = "none";
             tempForVm.style.display = "none";
         }
-        if ((inputConversion.value == "litres") && (outputConversion.value == "litres (solution)")) { // when converting litres to litres (solution)
+        if ((inputConversion.value == "litres (solid)") && (outputConversion.value == "litres (solution)")) { // when converting litres to litres (solution)
             inputMolarMass.style.display = "none";
             density.style.display = "none";
             molarity.style.display = "none";
@@ -330,7 +331,7 @@ document.addEventListener("DOMContentLoaded", function () {
             tempForVm.style.display = "none";
             conversionAlert();
         }
-        if ((inputConversion.value == "litres") && (outputConversion.value == "litres (gas)")) { // when converting litres to litres (gas)
+        if ((inputConversion.value == "litres (solid)") && (outputConversion.value == "litres (gas)")) { // when converting litres to litres (gas)
             inputMolarMass.style.display = "none";
             density.style.display = "none";
             molarity.style.display = "none";
@@ -356,7 +357,7 @@ document.addEventListener("DOMContentLoaded", function () {
             moles.style.display = "none";
             tempForVm.style.display = "none";
         }
-        if ((inputConversion.value == "particles") && (outputConversion.value == "litres")) { // when converting particles to litres
+        if ((inputConversion.value == "particles") && (outputConversion.value == "litres (solid)")) { // when converting particles to litres
             inputMolarMass.style.display = "inline-block";
             density.style.display = "inline-block";
             molarity.style.display = "none";
@@ -405,7 +406,7 @@ document.addEventListener("DOMContentLoaded", function () {
             moles.style.display = "none";
             tempForVm.style.display = "none";
         }
-        if ((inputConversion.value == "moles/L") && (outputConversion.value == "litres")) { // when converting moles/L to litres
+        if ((inputConversion.value == "moles/L") && (outputConversion.value == "litres (solid)")) { // when converting moles/L to litres
             inputMolarMass.style.display = "inline-block";
             density.style.display = "inline-block";
             molarity.style.display = "none";
@@ -456,7 +457,7 @@ document.addEventListener("DOMContentLoaded", function () {
             tempForVm.style.display = "none";
             conversionAlert();
         }
-        if ((inputConversion.value == "litres (solution)") && (outputConversion.value == "litres")) { // when converting litres (solution) to litres
+        if ((inputConversion.value == "litres (solution)") && (outputConversion.value == "litres (solid)")) { // when converting litres (solution) to litres
             inputMolarMass.style.display = "none";
             density.style.display = "none";
             molarity.style.display = "none";
@@ -507,7 +508,7 @@ document.addEventListener("DOMContentLoaded", function () {
             moles.style.display = "none";
             tempForVm.style.display = "inline-block";
         }
-        if ((inputConversion.value == "litres (gas)") && (outputConversion.value == "litres")) { // when converting litres (gas) to litres
+        if ((inputConversion.value == "litres (gas)") && (outputConversion.value == "litres (solid)")) { // when converting litres (gas) to litres
             inputMolarMass.style.display = "none";
             density.style.display = "none";
             molarity.style.display = "none";
