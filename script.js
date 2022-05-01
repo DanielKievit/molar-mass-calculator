@@ -114,7 +114,7 @@ const molecular_weights = {
     'Uub': 277
 };
 
-// set the accuracy of both the molarmass calculation and the convertor (in decimals)
+// set the accuracy of both the molarmass calculation and the converter (in decimals)
 let accuracy = 3;
 
 function splitComponentString(component) {
