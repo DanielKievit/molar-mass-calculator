@@ -6,8 +6,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>ChemiCalculator</title>
   <script src="script.js"></script>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" />
+
   <link rel="shortcut icon" type="image/x-icon" href="logo.svg" />
 </head>
 
@@ -15,9 +18,9 @@
   <!-- navbar -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="nav-link" href="index.html">
-          <img src="logo.svg" alt="logo" style="width: 30px; height: 30px;" class="sm-5">
-        </a>
+      <a class="nav-link" href="index.html">
+        <img src="logo.svg" alt="logo" style="width: 30px; height: 30px;" class="sm-5">
+      </a>
       <a class="navbar-brand" href="index.html">ChemiCalculator</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -61,6 +64,29 @@
       <hr>
       <br>
     </div>
+
+    <div class="container py-2">
+      <div class="row">
+        <div class="col">
+          <a class="popper btn btn-outline-warning" data-bs-trigger="hover" data-bs-toggle="popover">Hover me</a>
+          <div class="popper-content d-none">My popover content goes here.</div>
+        </div>
+      </div>
+    </div>
+    
+    <script>
+      $(function () {
+        $('.popper').popover({
+          placement: 'bottom',
+          container: 'body',
+          html: true,
+          content: function () {
+            return $(this).next('.popper-content').html();
+          }
+        })
+      })
+    </script>
+
     <div class="row">
       <div class="col-sm-12">
         <div class="card">
@@ -84,8 +110,5 @@
     </div>
     </div>
   </section>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-    crossorigin="anonymous"></script>
 </body>
 </html>
