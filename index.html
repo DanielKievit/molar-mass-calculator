@@ -47,12 +47,33 @@
       <form id="form">
         <div class="form-group">
           <label>Enter the molecular formula:</label>
-          <input type="text" class="form-control text-center" id="input-formula" placeholder="H₂O">
+          <div class="col-xs-2">
+            <input type="text" class="form-control text-center" id="input-formula" placeholder="H₂O">
+          </div>
         </div>
         <br>
-        <button type="submit" class="btn btn-primary">Calculate</button>
+        <button type="submit" class="btn btn-primary me-2">Calculate</button>
+        <a class="popper" data-bs-trigger="hover" data-bs-toggle="popover">
+          <img src="info-icon.svg" alt="info" style="width: 20px; height: 20px;" class="filter-light">
+        </a>
+        <div class="popper-content d-none">Elements are case-sensitive, the first letter of an element is always
+          uppercase.
+          If present, the second letter of an element is always lowercase. (Examples: H₂O, not h₂o | He, not HE)
+        </div>
       </form>
     </div>
+    <script>
+      $(function () {
+        $('.popper').popover({
+          placement: 'right',
+          container: 'body',
+          html: true,
+          content: function () {
+            return $(this).next('.popper-content').html();
+          }
+        })
+      })
+    </script>
   </section>
   <!-- section: answer + table -->
   <section class="bg-light text-dark p-2 text-center">
@@ -64,29 +85,6 @@
       <hr>
       <br>
     </div>
-
-    <div class="container py-2">
-      <div class="row">
-        <div class="col">
-          <a class="popper btn btn-outline-warning" data-bs-trigger="hover" data-bs-toggle="popover">Hover me</a>
-          <div class="popper-content d-none">My popover content goes here.</div>
-        </div>
-      </div>
-    </div>
-    
-    <script>
-      $(function () {
-        $('.popper').popover({
-          placement: 'bottom',
-          container: 'body',
-          html: true,
-          content: function () {
-            return $(this).next('.popper-content').html();
-          }
-        })
-      })
-    </script>
-
     <div class="row">
       <div class="col-sm-12">
         <div class="card">
@@ -111,4 +109,5 @@
     </div>
   </section>
 </body>
+
 </html>
