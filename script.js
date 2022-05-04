@@ -118,7 +118,7 @@ const molecular_weights = {
 let accuracy = 3;
 
 function splitComponentString(component) {
-    const componentName = component.match(/[A-Z][a-z]?/g)[0];
+    const componentName = component.match(/[A-Z][a-z]?[a-z]?/g)[0];
     const componentCount = parseInt(component.match(/\d\d?/g)?.[0] || 1);
     return {
         element: componentName,
@@ -128,7 +128,7 @@ function splitComponentString(component) {
 
 function calculatemolarmassof(inputformula) {
     // split the formula into components
-    const componentsOrGroups = inputformula.match(/([A-Z][a-z]?\d?\d?|\(.*?\)\d\d?)/g);
+    const componentsOrGroups = inputformula.match(/([A-Z][a-z]?[a-z]?\d?\d?|\(.*?\)\d\d?)/g);
     const groups = componentsOrGroups.filter(function (componentOrGroup) {
         return componentOrGroup.startsWith("(");
     });
@@ -137,7 +137,7 @@ function calculatemolarmassof(inputformula) {
     }).map(splitComponentString);
     // split groups into components and add to components 
     groups.forEach(group => {
-        let componentsInGroup = group.match(/([A-Z][a-z]?\d?\d?)/g);
+        let componentsInGroup = group.match(/([A-Z][a-z]?[a-z]?\d?\d?)/g);
         const factor = parseInt(group.match(/\d\d?$/g));
         componentsInGroup = componentsInGroup.map(splitComponentString);
         componentsInGroup.forEach(component => {
