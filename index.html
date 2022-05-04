@@ -67,6 +67,7 @@
         $('.popper').popover({
           placement: 'right',
           container: 'body',
+          boundary: 'window',
           html: true,
           content: function () {
             return $(this).next('.popper-content').html();
