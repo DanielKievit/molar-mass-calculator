@@ -146,29 +146,23 @@ document.addEventListener("DOMContentLoaded", function () {
             }
             // litres (gas) to ...
             if ((inputConversion.value == "litres (gas)") && (outputConversion.value == "moles")) { // when converting litres (gas) to moles
-                if (tempForVm.value == "T=273 K, p=p0") {
-                    const Vm = 22.4;
-                }
+                let Vm = 22.4;
                 if (tempForVm.value == "T=298 K, p=p0") {
-                    const Vm = 24.5;
+                    Vm = 24.5;
                 }
                 answer = inputAmount.value / Vm;
             }
             if ((inputConversion.value == "litres (gas)") && (outputConversion.value == "grams")) { // when converting litres (gas) to grams
-                if (tempForVm.value == "T=273 K, p=p0") {
-                    const Vm = 22.4;
-                }
+                let Vm = 22.4;
                 if (tempForVm.value == "T=298 K, p=p0") {
-                    const Vm = 24.5;
+                    Vm = 24.5;
                 }
                 answer = (inputAmount.value / Vm) * inputMolarMass.value;
             }
             if ((inputConversion.value == "litres (gas)") && (outputConversion.value == "particles")) { // when converting litres (gas) to particles
-                if (tempForVm.value == "T=273 K, p=p0") {
-                    const Vm = 22.4;
-                }
+                let Vm = 22.4;
                 if (tempForVm.value == "T=298 K, p=p0") {
-                    const Vm = 24.5;
+                    Vm = 24.5;
                 }
                 answer = (inputAmount.value / Vm) * avogadro;
             }
@@ -185,11 +179,15 @@ document.addEventListener("DOMContentLoaded", function () {
     inputConversion.addEventListener("change", ChangeConvertText);
     outputConversion.addEventListener("change", ChangeConvertText);
 
-    function ChangeConvertText() {  // changes the convert ... to ... text elements on change AND removes molarmass elements 
+    function ChangeConvertText() {  // changes the convert ... to ... text elements on change AND removes molarmass elements AND changes the inputAmount placeholder text
         // changes the paragraphs
         inputConversionUnit.innerHTML = inputConversion.value; // changes the <p> with inputconversion unit in it
         outputConversionUnit.innerHTML = outputConversion.value; // changes the <p> with outputconversion unit in it
         answerOutputUnit.innerHTML = outputConversion.value; // changes the <p> with the output answer unit in it
+
+        // changes the inputAmount placeholder 
+        document.getElementsByName('inputAmount')[0].placeholder = inputConversion.value;
+
         // moles to ...
         if ((inputConversion.value == "moles") && (outputConversion.value == "grams")) { // when converting moles to grams
             inputMolarMass.style.display = "inline-block";
