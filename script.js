@@ -250,8 +250,3 @@ document.addEventListener("DOMContentLoaded", function () {
 
     });
 });
-
-
-
-
-
