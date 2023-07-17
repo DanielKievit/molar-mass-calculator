@@ -1,37 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Molar Mass Calculator</title>
-
-    <div class="header">
-        <h1>Molar Mass Calculator</h1>
-    </div>
-
-    <script src="script.js"></script>
-    <link rel="stylesheet" href="mystyle.css">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300&display=swap" rel="stylesheet">
-
-</head> 
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ChemiCalculator</title>
+  <script src="script.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="shortcut icon" type="image/x-icon" href="logo.svg" />
+  <link rel="canonical" href="https://chemicalculator.com" />
+</head>
 
 <body>
-    <br>
-
-    <p>Enter the molecular formula of the molecule</p>
-
-    <form id="form">
-        <input type="text" id="input" >
-        <button type="submit">Calculate</button> 
-    </form>
-    
-    <div id="parent">
-        <p class="child">Molecular mass = </p> 
-        <p class = "child" id="output"></p> 
-        <p class = "child">g/mol</p>
+  <!-- navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="nav-link" href="index.html">
+        <img src="logo.svg" alt="logo" style="width: 30px; height: 30px;" class="sm-5">
+      </a>
+      <a class="navbar-brand" href="index.html">ChemiCalculator</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse text-center" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="index.html">Molar Mass Calculator</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="converter.html">Chemistry Converter</a>
+          </li>
+        </ul>
+      </div>
     </div>
-    
+  </nav>
+  <!-- section: input form -->
+  <section class="bg-dark text-light p-5 text-center">
+    <div class="container">
+      <h1 class="display-2">Molar Mass Calculator</h1>
+      <p class="lead">Enter a chemical formula to calculate the molar mass of the molecule in g/mol (u).</p>
+      <hr>
+      <form id="form">
+        <div class="form-group">
+          <label>Enter the molecular formula:</label>
+          <div class="col-xs-2">
+            <input type="text" class="form-control text-center" id="input-formula" placeholder="HâO">
+          </div>
+        </div>
+        <br>
+        <button type="submit" class="btn btn-primary me-2">Calculate</button>
+        <a class="popper" data-bs-trigger="hover" data-bs-toggle="popover">
+          <img src="info-icon.svg" alt="info" style="width: 25px; height: 25px;">
+        </a>
+        <div class="popper-content d-none" data-bs-html="true">Elements are <b>case-sensitive</b>, the first letter of an element is always
+          uppercase. If present, the second letter of an element is always lowercase. <br/><br/> <i>Examples: HâO, not hâo | He, not HE</i>
+        </div>
+      </form>
+    </div>
+    <script>
+      $(function () {
+        $('.popper').popover({
+          placement: 'right',
+          container: 'body',
+          boundary: 'window',
+          html: true,
+          content: function () {
+            return $(this).next('.popper-content').html();
+          }
+        })
+      })
+    </script>
+  </section>
+  <!-- section: answer + table -->
+  <section class="bg-light text-dark p-2 text-center">
+    <div class="container">
+      <h1 class="display-5">Molar Mass</h1>
+      <p class="lead">The molar mass of the molecule is:</p>
+      <span id="output"></span>
+      <span>g/mol</span>
+      <hr>
+      <br>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Elements</h5>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">Element</th>
+                  <th scope="col">Index</th>
+                  <th scope="col">Mass</th>
+                  <th scope="col">Total Mass</th>
+                </tr>
+              </thead>
+              <tbody id="table">
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </section>
 </body>
+
 </html>
