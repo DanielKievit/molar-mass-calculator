@@ -1,3 +1,4 @@
+// constants
 const molecular_weights = {
     "H": 1.00797,
     "He": 4.0026,
@@ -113,140 +114,104 @@ const molecular_weights = {
     'Uub': 277
 };
 
-function calculatemolarmassof(inputformula) {
-    components = inputformula.match(/[A-Z][a-z]?|[0-9]+|[()]/g);
+// set the accuracy of both the molarmass calculation and the converter (in decimals)
+let accuracy = 3;
 
-    console.log(components);
-
-    function isNumeric(num) {
-        return !isNaN(num);
-    }
-
-    for (e in components) {
-        if (molecular_weights[e] == undefined && e != '(' && e != ')' && isNumeric(e) == false) {
-            console.log("Error: make sure to type the elements like this: 'NaOH' or 'Fe2O3' or Fe(OH)2");
-        }
-    }
-
-    i = 0
-    weight_list = []
-
-    for (x in components) {
-        NextIsNumeric = false;
-        CurrentIsParanthesis = false;
-
-        if (i < (components.length) - 1) {
-            NextIsNumeric = isNumeric(components[i + 1]);
-
-            if (components[i].includes("(")) {
-                CurrentIsParanthesis = true;
-            }
-        }
-        else {
-            NextIsNumeric = false;
-        }
-        Substring = [];
-
-        if (CurrentIsParanthesis) {
-            IndexOfFirstParanthesis = components.indexOf("(") + 1;
-            IndexOfSecondParanthesis = components.indexOf(")");
-
-            const range = (start, end, length = end - start) =>
-                Array.from({ length }, (_, i) => start + i)
-
-            SubstringCount = range(IndexOfFirstParanthesis, IndexOfSecondParanthesis);
-
-            Substring = [];
-
-            for (y in SubstringCount) {
-                Substring.push(components[SubstringCount[y]]);
-
-            }
-            SubstringFactor = components[IndexOfSecondParanthesis + 1];
-
-            p = 0;
-            Substring_weight_list = [];
-
-            for (z in Substring) {
-                NextSubstringIsNumeric = false;
-                if (p < Substring.length - 1) {
-                    NextSubstringIsNumeric = isNumeric(Substring[p + 1]);
-                }
-                else {
-                    NextSubstringIsNumeric = false;
-                }
-                if (NextSubstringIsNumeric) {
-                    Substring_component_weight = (Substring[p + 1]) * (molecular_weights[Substring[p]]);
-                    Substring_weight_list.push(Substring_component_weight);
-                    p += 2;
-                }
-                else {
-                    if (p <= Substring.length - 1) {
-                        Substring_component_weight = (molecular_weights[Substring[p]]);
-                        Substring_weight_list.push(Substring_component_weight);
-                        p += 1;
-                    }
-                }
-            }
-
-
-            let total_substring_weight = 0;
-
-            for (let u = 0; u < Substring_weight_list.length; u++) {
-                total_substring_weight += Substring_weight_list[u];
-            }
-
-
-            ParanthesisWeight = SubstringFactor * total_substring_weight;
-
-            i = IndexOfSecondParanthesis + 2;
-        }
-        if (NextIsNumeric) {
-            component_weight = (components[i + 1]) * (molecular_weights[components[i]]);
-            weight_list.push(component_weight);
-            i += 2;
-        }
-        else {
-            if (i <= (components.length - 1)) {
-                component_weight = molecular_weights[components[i]];
-                weight_list.push(component_weight);
-                i += 1;
-            }
-        }
-    }
-
-    if (!components.includes("(")) {
-        ParanthesisWeight = 0;
-    }
-
-    total_weight = 0
-    for (let o = 0; o < weight_list.length; o++) {
-        total_weight += weight_list[o];
-    }
-    total_weight += ParanthesisWeight;
-
-    total_weight = Number((total_weight).toFixed(2));
-
-    return total_weight;
+function splitComponentString(component) {
+    const componentName = component.match(/[A-Z][a-z]?[a-z]?/g)[0];
+    const componentCount = parseInt(component.match(/\d\d?/g)?.[0] || 1);
+    return {
+        element: componentName,
+        count: componentCount || 1
+    };
 }
 
-// roep aan als document is geladen
-document.addEventListener("DOMContentLoaded", function () {
-    // pak elementen
-    const form = document.getElementById("form");
-    const input = document.getElementById("input");
-    const output = document.getElementById("output"); // https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector?retiredLocale=nl
-
-    // luister wanneer data wordt verzonden
-    form.addEventListener("submit", function (e) {
-        e.preventDefault(); // voorkom het verzenden van de form
-        const mass = calculatemolarmassof(input.value); // zet variabele 'mass' naar de berekende massa
-        
-        if (isNaN(mass)) {
-            output.innerHTML = "error";
+function calculatemolarmassof(inputformula) {
+    // split the formula into components
+    const componentsOrGroups = inputformula.match(/([A-Z][a-z]?[a-z]?\d?\d?|\(.*?\)\d\d?)/g);
+    const groups = componentsOrGroups.filter(function (componentOrGroup) {
+        return componentOrGroup.startsWith("(");
+    });
+    let components = componentsOrGroups.filter(function (componentOrGroup) {
+        return !componentOrGroup.startsWith("(");
+    }).map(splitComponentString);
+    // split groups into components and add to components 
+    groups.forEach(group => {
+        let componentsInGroup = group.match(/([A-Z][a-z]?[a-z]?\d?\d?)/g);
+        const factor = parseInt(group.match(/\d\d?$/g));
+        componentsInGroup = componentsInGroup.map(splitComponentString);
+        componentsInGroup.forEach(component => {
+            component.count = component.count * factor;
+        });
+        components = components.concat(componentsInGroup);
+    });
+    // merge duplicate components
+    components = components.reduce(function (acc, component) {
+        const existingComponent = acc.find(function (existingComponent) {
+            return existingComponent.element === component.element;
+        });
+        if (existingComponent) {
+            existingComponent.count += component.count;
         } else {
-            output.innerHTML = mass; // zet de HTML waarde van het 'mass' element naar de berekende massa
+            acc.push(component);
         }
+        return acc;
+    }, []);
+    // calculate the molecular mass
+    const weights = components.map(component => {
+        component.weight = molecular_weights[component.element];
+        component.total = component.weight * component.count;
+        return component.total;
+    });
+    const sum = weights.reduce((a, b) => a + b, 0);
+    return { total: sum, table: components };
+}
 
+document.addEventListener("DOMContentLoaded", function () { // activate when document is loaded
+    const form = document.getElementById("form");
+    const inputFormula = document.getElementById("input-formula");
+    const output = document.getElementById("output");
+    const table = document.getElementById("table");
+
+    var inputFormulaRealValue = "";
+    const subs = "ââââââââââ",
+        sups = "â°Â¹Â²Â³â´âµâ¶â·â¸â¹",
+        digits = subs,
+        regex = new RegExp("[" + subs + sups + "]", "g");
+    inputFormula.addEventListener("input", function (e) {
+        let val = e.target.value.replace(/\d/g, d => digits[d]);
+        if (val != e.target.value) {
+            const start = e.target.selectionStart,
+                end = e.target.selectionEnd;
+            e.target.value = val;
+            e.target.selectionStart = start;
+            e.target.selectionEnd = end;
+        }
+        inputFormulaRealValue = e.target.realValue;
+    });
+
+    Object.defineProperty(inputFormula, "realValue", { get() { return this.value.replace(regex, d => digits.indexOf(d)) } });
+
+    form.addEventListener("submit", function (e) {
+        table.innerHTML = ""; // leeg tabel
+        e.preventDefault(); // prevent sending the default blank input
+        const values = calculatemolarmassof(inputFormulaRealValue); // zet variabele 'mass' naar de berekende massa
+        if (isNaN(values.total)) {
+            output.innerHTML = "error";
+            alert("Elements are case-sensitive, the first letter of an element is always uppercase. If present, the second letter of an element is always lowercase.\n\nExample:\nWater is H2O, not h2o.\nHelium is He, not HE.");
+            return;
+        } else {
+            output.innerHTML = values.total.toFixed(accuracy); // zet de HTML waarde van het 'mass' element naar de berekende massa
+        }
+        for (const el of values.table) {
+            table.innerHTML += `
+            <tr>
+                <td>${el.element}</td>
+                <td>${el.count}</td>
+                <td>${el.weight.toFixed(accuracy)}</td>
+                <td>${el.total.toFixed(accuracy)}</td>
+            </tr>
+            `;
+        }
     });
 });
